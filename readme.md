@@ -5,6 +5,6 @@ After creating a podcast episode, we always need to publish it on YouTube too. B
 ### Plans
 
 - [x] Basic layout of background, text and logo
-- [ ] Create a render script, that given the audio file and title, will generate full youtube podcast episode
+- [x] Create a render script, that given the audio file and title, will generate full youtube podcast episode
 - [ ] Create a REST API, to interact with the renderer
 - [ ] Implement automatic YouTube publishing
