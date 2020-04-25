@@ -1,0 +1,19 @@
+{
+  "name": "requirepodcast-render-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc && node dist/index.js"
+  },
+  "dependencies": {
+    "@types/fluent-ffmpeg": "^2.1.14",
+    "fluent-ffmpeg": "^2.1.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5",
+    "tslint": "^6.1.1",
+    "tslint-plugin-prettier": "^2.3.0",
+    "typescript": "^3.8.3"
+  }
+}
