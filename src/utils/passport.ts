@@ -21,7 +21,7 @@ export default (app: express.Application) => {
       {
         clientID: 'e929645c814cc93c0d25',
         clientSecret: process.env.GH_CLIENT_SECRET,
-        callbackURL: 'http://localhost:8080/auth/callback',
+        callbackURL: 'http://localhost:8080/auth/github/callback',
       },
       (accessToken: string, refreshToken: string, profile: any, done: Function) => {
         if (acceptedUsers.includes(profile.id)) {

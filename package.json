@@ -4,18 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "node dist/index.js",
     "dev": "nodemon src/index.ts & webpack --watch",
     "build": "tsc && webpack"
   },
   "dependencies": {
-    "@types/express": "^4.17.6",
-    "@types/fluent-ffmpeg": "^2.1.14",
-    "@types/jsonwebtoken": "^8.3.9",
-    "@types/morgan": "^1.9.0",
-    "@types/passport": "^1.0.3",
-    "@types/passport-github2": "^1.2.4",
-    "@types/session-file-store": "^1.2.1",
+    "@material/mwc-button": "^0.14.1",
+    "@material/mwc-drawer": "^0.14.1",
+    "@material/mwc-icon-button": "^0.14.1",
+    "@material/mwc-list": "^0.14.1",
+    "@material/mwc-top-app-bar": "^0.14.1",
+    "@material/mwc-top-app-bar-fixed": "^0.14.1",
+    "@webcomponents/webcomponentsjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "css-loader": "^3.5.3",
@@ -26,7 +26,6 @@
     "fluent-ffmpeg": "^2.1.2",
     "fs-extra": "^9.0.0",
     "jsonwebtoken": "^8.5.1",
-    "material-components-web": "^6.0.0",
     "morgan": "^1.10.0",
     "node-sass": "^4.14.0",
     "passport": "^0.4.1",
@@ -36,17 +35,24 @@
     "session-file-store": "^1.4.0",
     "socket.io-server": "^1.0.0-b",
     "style-loader": "^1.2.0",
-    "validator": "^13.0.0",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
+    "@types/express": "^4.17.6",
     "@types/express-session": "^1.17.0",
+    "@types/fluent-ffmpeg": "^2.1.14",
+    "@types/jsonwebtoken": "^8.3.9",
+    "@types/morgan": "^1.9.0",
+    "@types/passport": "^1.0.3",
+    "@types/passport-github2": "^1.2.4",
+    "@types/session-file-store": "^1.2.1",
     "prettier": "^2.0.5",
     "ts-node": "^8.9.1",
     "tslint": "^6.1.1",
     "tslint-plugin-prettier": "^2.3.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }
