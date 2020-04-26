@@ -1,22 +1,38 @@
-import ffmpeg from 'fluent-ffmpeg';
-import { wordWrap } from './utils/wordWrap';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import morgan from 'morgan';
+import dotenv from 'dotenv';
+import sessionFileStore from 'session-file-store';
+import passportInit from './utils/passport';
 
-const episodeTitle = 'require(#6) - Ciągła Integracja';
-const audioFile = 'assets/linus_music.mp3';
+dotenv.config();
 
-const timeline = ffmpeg(audioFile)
-  .input('assets/animation.mp4')
-  .inputOption('-stream_loop -1')
-  .input('assets/RequireLogo.png')
-  .complexFilter([
-    '[2:v]scale=600:600 [logo]',
-    '[1][logo]overlay=180:240 [combined]',
-    `[combined]drawtext=fontfile=assets/FiraCode.ttf:text='${wordWrap(
-      episodeTitle,
-    )}':fontsize=80:fontcolor='#ff5370':x=840:y=(h-text_h)/2`,
-  ])
-  .outputOption('-shortest');
+const app = express();
+const FileStore = sessionFileStore(session);
 
-const output = timeline.output('output/output.mp4');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(
+  session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: false,
+    store: new FileStore({ path: './.sessions' }),
+  }),
+);
+app.use(morgan('tiny'));
+passportInit(app);
 
-output.run();
+import main from './routes/main.router';
+import api from './routes/api.router';
+import auth from './routes/auth.router';
+
+app.use('/', main);
+app.use('/api/v1', api);
+app.use('/auth', auth);
+
+const port = process.env.PORT || 8080;
+app.listen(port, () => console.log(`listening on port ${port}`));

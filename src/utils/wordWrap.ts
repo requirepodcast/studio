@@ -1,4 +1,4 @@
-export function wordWrap(text: string) {
+export function wordWrap(text: string): string {
   const words = text.split(' ');
   let letters = 0;
   let wordWrappedText = '';

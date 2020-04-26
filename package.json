@@ -4,14 +4,40 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsc && node dist/index.js"
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
   },
   "dependencies": {
+    "@types/express": "^4.17.6",
     "@types/fluent-ffmpeg": "^2.1.14",
-    "fluent-ffmpeg": "^2.1.2"
+    "@types/jsonwebtoken": "^8.3.9",
+    "@types/morgan": "^1.9.0",
+    "@types/passport": "^1.0.3",
+    "@types/passport-github2": "^1.2.4",
+    "@types/session-file-store": "^1.2.1",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.4.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "fs-extra": "^9.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-github2": "^0.1.12",
+    "pug": "^2.0.4",
+    "session-file-store": "^1.4.0",
+    "socket.io-server": "^1.0.0-b",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express-session": "^1.17.0",
     "prettier": "^2.0.5",
+    "ts-node": "^8.9.1",
     "tslint": "^6.1.1",
     "tslint-plugin-prettier": "^2.3.0",
     "typescript": "^3.8.3"
