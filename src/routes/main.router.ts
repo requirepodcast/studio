@@ -1,8 +1,6 @@
 import express from 'express';
 const router = express.Router();
 
-router.get('/', (req, res) =>
-  res.send(`Welcome to requirepodcast render server ${JSON.stringify(req.user)}`),
-);
+router.get('/', (req, res) => res.render('index.pug'));
 
 export default router;

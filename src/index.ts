@@ -12,6 +12,9 @@ dotenv.config();
 const app = express();
 const FileStore = sessionFileStore(session);
 
+app.set('view engine', 'pug');
+app.set('views', './src/app/views');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -25,6 +28,8 @@ app.use(
 );
 app.use(morgan('tiny'));
 passportInit(app);
+
+app.use('/static', express.static('public'));
 
 import main from './routes/main.router';
 import api from './routes/api.router';
