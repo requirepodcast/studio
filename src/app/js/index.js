@@ -7,3 +7,7 @@ import '@material/mwc-drawer';
 document.querySelector('#navigationButton').addEventListener('click', () => {
   document.querySelector('mwc-drawer').open = !document.querySelector('mwc-drawer').open;
 });
+
+document.querySelector('#logoutButton').addEventListener('click', () => {
+  window.location.href = '/auth/logout';
+});

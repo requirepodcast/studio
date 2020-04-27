@@ -1,10 +1,9 @@
 import express from 'express';
+import { protectedAppRoute } from '../utils/auth';
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  return req.isAuthenticated()
-    ? res.render('index.pug', { title: 'index' })
-    : res.redirect('/login');
+router.get('/', protectedAppRoute, (req, res) => {
+  return res.render('index.pug', { title: 'index' });
 });
 
 router.get('/login', (req, res) => {

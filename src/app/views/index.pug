@@ -5,11 +5,13 @@ block scripts
 
 block content
   mwc-drawer(type="modal")
+    div
+      | dupadupa
     div(slot="appContent")
       mwc-top-app-bar(centerTitle)
         mwc-icon-button(icon="menu" slot="navigationIcon" id="navigationButton")
         div(slot="title") require podcast render server
-        mwc-icon-button(icon="logout" slot="actionItems")
+        mwc-icon-button(icon="logout" slot="actionItems" id="logoutButton")
         .content
           - var lol = new Array(100)
           each item in lol
