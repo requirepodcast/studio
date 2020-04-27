@@ -1,7 +1,7 @@
 .vscode/
 .DS_Store
 node_modules/
-output/output.mp4
 dist/
 .env
 .sessions
+public/*.bundle.js
