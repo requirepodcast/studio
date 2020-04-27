@@ -4,15 +4,18 @@ block scripts
   script(src="static/index.bundle.js")
 
 block content
-  mwc-drawer(type="modal")
+  mwc-drawer(type="modal" hasHeader)
+    div(slot="title") Main menu
+    div(slot="subtitle") require podcast render server
     div
-      | dupadupa
+      mwc-list
+        mwc-list-item(graphic="avatar")
+          span Restart server
+          mwc-icon(slot="graphic") refresh
     div(slot="appContent")
       mwc-top-app-bar(centerTitle style="--mdc-theme-primary: rgb(29, 31, 45)")
         mwc-icon-button(icon="menu" slot="navigationIcon" id="navigationButton")
         div(slot="title") require podcast render server
         mwc-icon-button(icon="logout" slot="actionItems" id="logoutButton")
         .content
-          - var lol = new Array(100)
-          each item in lol
-            li dupa
+          div dupsko
