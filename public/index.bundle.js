@@ -817,4 +817,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/let rt=class extends it{};rt.styles=nt,rt=Object(n.b)([Object(r.c)("mwc-list-item")],rt);i(20);document.onload=()=>{document.querySelector("#navigationButton").addEventListener("click",()=>{document.querySelector("mwc-drawer").open=!document.querySelector("mwc-drawer").open}),document.querySelector("#logoutButton").addEventListener("click",()=>{window.location.href="/auth/logout"})}}]);
+*/let rt=class extends it{};rt.styles=nt,rt=Object(n.b)([Object(r.c)("mwc-list-item")],rt);i(20);window.onload=()=>{document.querySelector("#navigationButton").onclick=()=>{document.querySelector("mwc-drawer").open=!document.querySelector("mwc-drawer").open},document.querySelector("#logoutButton").onclick=()=>{window.location.href="/auth/logout"}}}]);

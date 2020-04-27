@@ -448,4 +448,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/let d=class extends s{};d.styles=c,d=Object(i.b)([Object(o.c)("mwc-button")],d),document.onload=()=>{document.querySelector("#loginButton").addEventListener("click",()=>{window.location.href="/auth/github"})}}]);
+*/let d=class extends s{};d.styles=c,d=Object(i.b)([Object(o.c)("mwc-button")],d),window.onload=()=>{document.querySelector("#loginButton").onclick=()=>{window.location.href="/auth/github"}}}]);

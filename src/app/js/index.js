@@ -7,12 +7,12 @@ import '@material/mwc-list/mwc-list';
 import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-icon';
 
-document.onload = () => {
-  document.querySelector('#navigationButton').addEventListener('click', () => {
+window.onload = () => {
+  document.querySelector('#navigationButton').onclick = () => {
     document.querySelector('mwc-drawer').open = !document.querySelector('mwc-drawer').open;
-  });
+  };
 
-  document.querySelector('#logoutButton').addEventListener('click', () => {
+  document.querySelector('#logoutButton').onclick = () => {
     window.location.href = '/auth/logout';
-  });
+  };
 };
