@@ -4,19 +4,19 @@ import { protectedAppRoute } from '../utils/auth';
 
 const router = express.Router();
 
-router.get('/github', passport.authenticate('github', { scope: ['user'] }));
+router.get('/github', passport.authenticate('github', { scope: ['user'], session: false }));
 
 router.get(
   '/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
+  passport.authenticate('github', { failureRedirect: '/login', session: false }),
   (req, res) => {
-    res.redirect('/');
+    // @ts-ignore
+    res.cookie('auth', req.user.token).redirect('/');
   },
 );
 
 router.get('/logout', protectedAppRoute, (req, res) => {
-  req.logout();
-  return res.redirect('/login');
+  return res.clearCookie('auth').redirect('/login');
 });
 
 export default router;

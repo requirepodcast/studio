@@ -2,20 +2,13 @@ import passport from 'passport';
 import { Strategy as GithubStrategy } from 'passport-github2';
 import express from 'express';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
 const acceptedUsers: Array<string> = JSON.parse(process.env.ACCEPTED_IDs);
 
 export default (app: express.Application) => {
-  passport.serializeUser((user, done) => {
-    done(null, user);
-  });
-
-  passport.deserializeUser((obj, done) => {
-    done(null, obj);
-  });
-
   passport.use(
     new GithubStrategy(
       {
@@ -25,14 +18,14 @@ export default (app: express.Application) => {
       },
       (accessToken: string, refreshToken: string, profile: any, done: Function) => {
         if (acceptedUsers.includes(profile.id)) {
-          done(null, profile);
+          const token = jwt.sign({ id: profile.id, accessToken }, process.env.JWT_KEY);
+          done(null, { token: token });
         } else {
-          done(new Error('User not allowed to access the app'));
+          done(new Error('User not allowed to access the app'), null);
         }
       },
     ),
   );
 
   app.use(passport.initialize());
-  app.use(passport.session());
 };
