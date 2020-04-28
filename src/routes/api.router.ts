@@ -8,4 +8,9 @@ router.get('/', protectedApiRoute, (req, res) =>
   res.json({ message: `requirepodcast's render server api` }),
 );
 
+router.post('/server/shutdown', protectedApiRoute, (req, res) => {
+  res.json({ message: `Server is restarting...` });
+  process.exit(0);
+});
+
 export default router;

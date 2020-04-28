@@ -1,5 +1,5 @@
 import express from 'express';
-import { protectedAppRoute } from '../utils/auth';
+import { protectedAppRoute, isAuthenticated } from '../utils/auth';
 const router = express.Router();
 
 router.get('/', protectedAppRoute, (req, res) => {
@@ -7,7 +7,9 @@ router.get('/', protectedAppRoute, (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  return req.isAuthenticated() ? res.redirect('/') : res.render('login.pug', { title: 'login' });
+  isAuthenticated(req.cookies.auth)
+    .then(() => res.redirect('/'))
+    .catch(() => res.render('login.pug', { title: 'login' }));
 });
 
 export default router;
