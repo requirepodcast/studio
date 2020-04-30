@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { Socket } from 'socket.io';
 
 dotenv.config();
 
@@ -32,4 +33,11 @@ export function isAuthenticated(token: string): Promise<any> {
       }
     });
   });
+}
+
+export function protectedWebsocket(socket: Socket, next: Function) {
+  // @ts-ignore
+  isAuthenticated(socket.query.token)
+    .then(() => next())
+    .catch(() => next(new Error('Invalid credentials')));
 }
