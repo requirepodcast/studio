@@ -8,7 +8,9 @@ export default (http: Server) => {
 
   io.use(protectedWebsocket);
 
-  io.on('connection', () => {
+  io.on('connection', socket => {
+    socket.emit('status', { isRendering: RendererService.isRendering });
+
     RendererService.rendererEventEmitter.on('progress', e => {
       io.emit('progress', e);
     });
