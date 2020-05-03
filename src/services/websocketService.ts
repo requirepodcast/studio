@@ -12,5 +12,13 @@ export default (http: Server) => {
     RendererService.rendererEventEmitter.on('progress', e => {
       io.emit('progress', e);
     });
+
+    RendererService.rendererEventEmitter.on('error', err => {
+      io.emit('error', err);
+    });
+
+    RendererService.rendererEventEmitter.on('finish', err => {
+      io.emit('finish', err);
+    });
   });
 };

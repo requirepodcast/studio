@@ -8,10 +8,10 @@ class RendererService {
   rendererEventEmitter: EventEmitter = new EventEmitter();
   isRendering: boolean = false;
 
-  startRendering(episodeTitle: string): string {
+  startRendering(episodeTitle: string, audioFile: string): string {
     if (!this.isRendering) {
-      if (fs.existsSync('./public/assets/linus_music.mp3')) {
-        const timeline = ffmpeg('./public/assets/linus_music.mp3')
+      if (fs.existsSync(`./public/uploads/${audioFile}`)) {
+        const timeline = ffmpeg(`./public/uploads/${audioFile}`)
           .input('./public/assets/animation.mp4')
           .inputOption('-stream_loop -1')
           .input('./public/assets/RequireLogo.png')
@@ -29,7 +29,10 @@ class RendererService {
           .output('./public/output.mp4')
           .on('progress', e => {
             this.rendererEventEmitter.emit('progress', e);
-            console.log(Math.floor(e.percent) + '%');
+          })
+          .on('error', err => {
+            this.isRendering = false;
+            this.rendererEventEmitter.emit('error', err);
           })
           .on('finish', () => {
             this.isRendering = false;
