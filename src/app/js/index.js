@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import './base';
 import '../css/index.scss';
@@ -25,4 +26,12 @@ window.onload = () => {
       });
     }
   };
+
+  import('socket.io-client').then(({ default: io }) => {
+    const socket = io('/', { query: { token: Cookies.get('auth') } });
+
+    socket.on('status', ({ isRendering }) => {
+      console.log(isRendering);
+    });
+  });
 };

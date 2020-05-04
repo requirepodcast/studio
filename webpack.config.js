@@ -4,7 +4,8 @@ module.exports = {
   entry: { index: './src/app/js/index.js', login: './src/app/js/login.js' },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'public/js'),
+    publicPath: '/static/js/',
   },
   module: {
     rules: [
@@ -24,4 +25,5 @@ module.exports = {
   resolve: {
     extensions: ['.js'], // Allow TypeScript files to be imported without file extension - import { foo } from './bar'
   },
+  devtool: 'source-map',
 };

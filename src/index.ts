@@ -1,4 +1,5 @@
 import express from 'express';
+import http from 'http';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
@@ -28,5 +29,10 @@ app.use('/', main);
 app.use('/api/v1', api);
 app.use('/auth', auth);
 
+import websocketService from './services/websocketService';
+
+const server = http.createServer(app);
+websocketService(server);
+
 const port = process.env.PORT || 8080;
-app.listen(port, () => console.log(`listening on port ${port}`));
+server.listen(port, () => console.log(`listening on port ${port}`));

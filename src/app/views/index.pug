@@ -1,7 +1,7 @@
 extends components/layout.pug
 
 block scripts
-  script(src="static/index.bundle.js")
+  script(src="static/js/index.bundle.js")
 
 block content
   mwc-drawer(type="modal" hasHeader)
@@ -18,4 +18,4 @@ block content
         div(slot="title") render-server
         mwc-icon-button(icon="logout" slot="actionItems" id="logoutButton")
         .content
-          div a
+          div b

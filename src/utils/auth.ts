@@ -36,8 +36,7 @@ export function isAuthenticated(token: string): Promise<any> {
 }
 
 export function protectedWebsocket(socket: Socket, next: Function) {
-  // @ts-ignore
-  isAuthenticated(socket.query.token)
+  isAuthenticated(socket.handshake.query.token)
     .then(() => next())
     .catch(() => next(new Error('Invalid credentials')));
 }
