@@ -17,5 +17,14 @@ block content
         mwc-icon-button(icon="menu" slot="navigationIcon" id="navigationButton")
         div(slot="title") render-server
         mwc-icon-button(icon="logout" slot="actionItems" id="logoutButton")
-        .content
-          div b
+        .wrapper
+          .topBlock
+            img(src="/static/assets/RequireLogo.png")
+            div
+              h1 requirepodcast render-server
+              h4 main dashboard
+          .cards
+            div(style="background-color: blue; height: 20px;")
+            div(style="background-color: blue; height: 20px;")
+            div(style="background-color: blue; height: 20px;")
+            div(style="background-color: blue; height: 20px;")

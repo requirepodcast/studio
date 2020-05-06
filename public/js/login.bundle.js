@@ -1634,7 +1634,7 @@ exports = ___CSS_LOADER_API_IMPORT___(false);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap);"]);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Material+Icons&display=block);"]);
 // Module
-exports.push([module.i, "body {\n  margin: 0;\n  font-family: 'Roboto', sans-serif; }\n\n.wrapper {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  text-align: center; }\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  font-family: 'Roboto', sans-serif; }\n\n* {\n  box-sizing: border-box; }\n\n.wrapper {\n  height: 100vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  text-align: center; }\n", ""]);
 // Exports
 module.exports = exports;
 

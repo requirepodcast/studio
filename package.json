@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts & webpack --watch --mode=development",
-    "build": "tsc && webpack --mode=production"
+    "dev": "nodemon src/index.ts & webpack --watch",
+    "build": "tsc && webpack"
   },
   "dependencies": {
     "@material/mwc-button": "^0.14.1",

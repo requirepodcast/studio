@@ -26,4 +26,5 @@ module.exports = {
     extensions: ['.js'], // Allow TypeScript files to be imported without file extension - import { foo } from './bar'
   },
   devtool: 'source-map',
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 };

@@ -6663,7 +6663,7 @@ exports = ___CSS_LOADER_API_IMPORT___(false);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap);"]);
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Material+Icons&display=block);"]);
 // Module
-exports.push([module.i, "body {\n  margin: 0;\n  font-family: 'Roboto', sans-serif; }\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  font-family: 'Roboto', sans-serif; }\n\n* {\n  box-sizing: border-box; }\n\n.wrapper {\n  background-color: #f5f5f5;\n  height: 100%; }\n\n.topBlock {\n  padding: 20px 15px;\n  background-color: #fafafa;\n  display: flex;\n  align-items: center; }\n  .topBlock img {\n    width: 100px;\n    height: 100px;\n    margin-right: 20px; }\n  .topBlock h1 {\n    margin: 0; }\n  .topBlock h4 {\n    color: grey;\n    margin: 0; }\n\n.cards {\n  display: grid;\n  grid-template-columns: 1.5fr 1fr;\n  gap: 20px;\n  padding: 20px; }\n", ""]);
 // Exports
 module.exports = exports;
 
