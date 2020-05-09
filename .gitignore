@@ -3,5 +3,4 @@
 node_modules/
 dist/
 .env
-.sessions
-public/*.bundle.js
+public/js/
