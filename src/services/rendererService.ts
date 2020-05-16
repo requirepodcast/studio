@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events';
 import ffmpeg from 'fluent-ffmpeg';
-import path from 'path';
 import fs from 'fs-extra';
 import { wordWrap } from '../utils/wordWrap';
+import { encodeText } from '../utils/encodeText';
 
 class RendererService {
   rendererEventEmitter: EventEmitter = new EventEmitter();
@@ -19,8 +19,8 @@ class RendererService {
           .complexFilter([
             '[2]scale=600:600, fade=in:50:25:alpha=1 [logo]',
             '[1][logo]overlay=180:240 [combined]',
-            `[combined]drawtext=fontfile=FiraCode.ttf:text='${wordWrap(
-              episodeTitle,
+            `[combined]drawtext=fontfile=FiraCode.ttf:text='${encodeText(
+              wordWrap(episodeTitle),
             )}':fontsize=80:fontcolor='#ff5370':x=840:y=(h-text_h)/2:alpha='if(lt(t,4),0,if(lt(t,5),t-4,1))'`,
           ])
           .outputOption('-shortest');

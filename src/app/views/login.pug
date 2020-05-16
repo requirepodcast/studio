@@ -1,7 +1,10 @@
 extends components/layout.pug
 
+block styles
+  link(rel="stylesheet", href="/static/css/login.bundle.css")
+
 block scripts
-  script(src="static/js/login.bundle.js")
+  script(src="/static/js/login.bundle.js" defer)
 
 block content
   div.wrapper
