@@ -32,7 +32,9 @@ document.querySelector('#fileUploadButton').onclick = () => {
   fileUpload.click();
 
   fileUpload.addEventListener('change', () => {
-    console.log(fileUpload.files[0]);
+    const formData = new FormData();
+    formData.append('audio', fileUpload.files[0]);
+    axios.post('/api/v1/audio/upload', formData).then(getAudioFiles);
   });
 };
 
@@ -44,25 +46,30 @@ import('socket.io-client').then(({ default: io }) => {
   });
 });
 
-import('axios').then(({ default: axios }) => {
-  axios.get('/api/v1/audio').then(({ data }) => {
-    const dataTable = document.querySelector('.mdc-data-table__content');
-    for (const file of data) {
-      const row = document.createElement('tr');
-      row.setAttribute('class', 'mdc-data-table__row');
+function getAudioFiles() {
+  import('axios').then(({ default: axios }) => {
+    axios.get('/api/v1/audio').then(({ data }) => {
+      const dataTable = document.querySelector('.mdc-data-table__content');
+      dataTable.innerHTML = '';
+      for (const file of data) {
+        const row = document.createElement('tr');
+        row.setAttribute('class', 'mdc-data-table__row');
 
-      const fileName = document.createElement('td');
-      fileName.setAttribute('class', 'mdc-data-table__cell');
-      fileName.textContent = file.name;
+        const fileName = document.createElement('td');
+        fileName.setAttribute('class', 'mdc-data-table__cell');
+        fileName.textContent = file.name;
 
-      const fileSize = document.createElement('td');
-      fileSize.setAttribute('class', 'mdc-data-table__cell');
-      fileSize.textContent = file.size;
+        const fileSize = document.createElement('td');
+        fileSize.setAttribute('class', 'mdc-data-table__cell');
+        fileSize.textContent = file.size;
 
-      row.appendChild(fileName);
-      row.appendChild(fileSize);
+        row.appendChild(fileName);
+        row.appendChild(fileSize);
 
-      dataTable.appendChild(row);
-    }
+        dataTable.appendChild(row);
+      }
+    });
   });
-});
+}
+
+getAudioFiles();
