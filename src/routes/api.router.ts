@@ -3,6 +3,8 @@ import { check, validationResult } from 'express-validator';
 import multer from 'multer';
 import { protectedApiRoute } from '../utils/auth';
 import RendererService from '../services/rendererService';
+import fs from 'fs-extra';
+import prettyBytes from 'pretty-bytes';
 
 const router = express.Router();
 const storage = multer.diskStorage({
@@ -45,6 +47,16 @@ router.post('/audio/upload', protectedApiRoute, upload.single('audio'), (req, re
     return res.status(400).json({ message: 'Did not uplaod any file' });
   }
   return res.json({ message: 'File successfully uploaded', filename: req.file.filename });
+});
+
+router.get('/audio/', protectedApiRoute, (req, res) => {
+  return fs.readdir('./public/uploads/').then(fileNames => {
+    const files: any[] = [];
+    fileNames.map(file => {
+      files.push({ name: file, size: prettyBytes(fs.statSync(`./public/uploads/${file}`).size) });
+    });
+    res.json(files);
+  });
 });
 
 export default router;

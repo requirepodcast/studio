@@ -4,7 +4,7 @@ block scripts
   script(src="static/js/index.bundle.js" defer)
 
 block styles
-  link(rel="stylesheet", href="/static/css/index.bundle.css")
+  link(rel="stylesheet", href="static/css/index.bundle.css")
 
 block content
   mwc-drawer(type="modal" hasHeader)
@@ -22,12 +22,23 @@ block content
         mwc-icon-button(icon="logout" slot="actionItems" id="logoutButton")
         .wrapper
           .topBlock
-            img(src="/static/assets/RequireLogo.png")
+            img(src="static/assets/RequireLogo.png")
             div
               h1 requirepodcast render-server
               h4 main dashboard
           .cards
             div.card
+              h2 Audio files
+              .mdc-data-table
+                table.mdc-data-table__table
+                  thead
+                    tr.mdc-data-table__header-row
+                      th.mdc-data-table__header-cell(role="columnheader" scope="col") Filename
+                      th.mdc-data-table__header-cell.mdc-data-table__header-cell--numeric(role="columnheader" scope="col") Size
+                  tbody.mdc-data-table__content
+              .addButton
+                mwc-button(raised label="Add file" icon="add" dense id="fileUploadButton")
+                input(type="file" id="fileUpload" style="display: none;" accept="audio/mpeg")
             div.card
             div.card
             div.card
