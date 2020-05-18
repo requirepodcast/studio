@@ -8,7 +8,7 @@ class RendererService {
   rendererEventEmitter: EventEmitter = new EventEmitter();
   isRendering: boolean = false;
 
-  startRendering(episodeTitle: string, audioFile: string): string {
+  startRendering(episodeTitle: string, audioFile: string, outputFile: string): string {
     if (!this.isRendering) {
       if (fs.existsSync(`./public/uploads/${audioFile}`)) {
         const timeline = ffmpeg(`./public/uploads/${audioFile}`)
@@ -26,17 +26,31 @@ class RendererService {
           .outputOption('-shortest');
 
         const output = timeline
-          .output('./public/output.mp4')
+          .output(`./public/output/${outputFile}`)
+          .on('start', () =>
+            fs.appendFile(
+              './public/output/render.log',
+              `${new Date()} | Started rendering file ${outputFile}`,
+            ),
+          )
           .on('progress', e => {
+            fs.appendFile(
+              './public/output/render.log',
+              `${new Date()} | Rendering progress ${Math.floor(e.percent)}% | Filesize ${
+                e.targetSize
+              }`,
+            );
             this.rendererEventEmitter.emit('progress', e);
           })
           .on('error', err => {
             this.isRendering = false;
             this.rendererEventEmitter.emit('error', err);
+            fs.appendFile('./public/output/render.log', `${new Date()} | Rendering error ${err}`);
           })
-          .on('finish', () => {
+          .on('finish', e => {
             this.isRendering = false;
             this.rendererEventEmitter.emit('finish');
+            fs.appendFile('./public/output/render.log', `${new Date()} | Rendering finished!`);
           });
 
         this.isRendering = true;

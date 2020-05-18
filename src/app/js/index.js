@@ -10,6 +10,71 @@ import '@material/mwc-list/mwc-list';
 import '@material/mwc-list/mwc-list-item';
 import '@material/mwc-icon';
 import '@material/mwc-button';
+import '@material/mwc-textfield';
+import '@material/mwc-textarea';
+import { MDCSelect } from '@material/select';
+
+const inputFileSelect = new MDCSelect(document.querySelector('.mdc-select'));
+
+import('socket.io-client').then(({ default: io }) => {
+  const socket = io('/', { query: { token: Cookies.get('auth') } });
+
+  socket.on('status', ({ isRendering }) => {
+    console.log(isRendering);
+  });
+
+  socket.on('progress', e => console.log(e));
+});
+
+function getAudioFiles() {
+  import('axios').then(({ default: axios }) => {
+    axios.get('/api/v1/audio').then(({ data }) => {
+      const dataTable = document.querySelector('.mdc-data-table__content');
+      const filesList = document.querySelector('.filesToRender');
+
+      dataTable.innerHTML = '';
+      filesList.innerHTML = '';
+
+      const blankListItem = document.createElement('li');
+      blankListItem.setAttribute('class', 'mdc-list-item mdc-list-item--selected');
+      blankListItem.setAttribute('data-value', '');
+      blankListItem.setAttribute('aria-selected', 'true');
+      filesList.appendChild(blankListItem);
+
+      for (const file of data) {
+        // Table
+        const row = document.createElement('tr');
+        row.setAttribute('class', 'mdc-data-table__row');
+
+        const fileName = document.createElement('td');
+        fileName.setAttribute('class', 'mdc-data-table__cell');
+        fileName.textContent = file.name;
+
+        const fileSize = document.createElement('td');
+        fileSize.setAttribute('class', 'mdc-data-table__cell');
+        fileSize.textContent = file.size;
+
+        row.appendChild(fileName);
+        row.appendChild(fileSize);
+
+        dataTable.appendChild(row);
+
+        // Files to render
+        const listItem = document.createElement('li');
+        listItem.setAttribute('class', 'mdc-list-item');
+        listItem.setAttribute('data-value', file.name);
+
+        const listItemLabel = document.createElement('span');
+        listItemLabel.textContent = file.name;
+
+        listItem.appendChild(listItemLabel);
+        filesList.appendChild(listItem);
+      }
+    });
+  });
+}
+
+getAudioFiles();
 
 document.querySelector('#navigationButton').onclick = () => {
   document.querySelector('mwc-drawer').open = !document.querySelector('mwc-drawer').open;
@@ -27,6 +92,16 @@ document.querySelector('#restartButton').onclick = () => {
   }
 };
 
+document.querySelector('#startButton').onclick = () => {
+  const inputFile = inputFileSelect.value;
+  const episodeTitle = document.querySelector('#episodeTitle').value;
+  const outputFile = document.querySelector('#outputFile').value;
+
+  axios
+    .post('/api/v1/renderer/start', { title: episodeTitle, audioFile: inputFile, outputFile })
+    .then(res => console.log(res));
+};
+
 document.querySelector('#fileUploadButton').onclick = () => {
   const fileUpload = document.querySelector('#fileUpload');
   fileUpload.click();
@@ -37,39 +112,3 @@ document.querySelector('#fileUploadButton').onclick = () => {
     axios.post('/api/v1/audio/upload', formData).then(getAudioFiles);
   });
 };
-
-import('socket.io-client').then(({ default: io }) => {
-  const socket = io('/', { query: { token: Cookies.get('auth') } });
-
-  socket.on('status', ({ isRendering }) => {
-    console.log(isRendering);
-  });
-});
-
-function getAudioFiles() {
-  import('axios').then(({ default: axios }) => {
-    axios.get('/api/v1/audio').then(({ data }) => {
-      const dataTable = document.querySelector('.mdc-data-table__content');
-      dataTable.innerHTML = '';
-      for (const file of data) {
-        const row = document.createElement('tr');
-        row.setAttribute('class', 'mdc-data-table__row');
-
-        const fileName = document.createElement('td');
-        fileName.setAttribute('class', 'mdc-data-table__cell');
-        fileName.textContent = file.name;
-
-        const fileSize = document.createElement('td');
-        fileSize.setAttribute('class', 'mdc-data-table__cell');
-        fileSize.textContent = file.size;
-
-        row.appendChild(fileName);
-        row.appendChild(fileSize);
-
-        dataTable.appendChild(row);
-      }
-    });
-  });
-}
-
-getAudioFiles();

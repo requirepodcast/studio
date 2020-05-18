@@ -1,9 +1,11 @@
-extends components/layout.pug
+extends templates/layout.pug
 
 block scripts
   script(src="static/js/index.bundle.js" defer)
+  script(src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js")
 
 block styles
+  link(href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet")
   link(rel="stylesheet", href="static/css/index.bundle.css")
 
 block content
@@ -27,18 +29,9 @@ block content
               h1 requirepodcast render-server
               h4 main dashboard
           .cards
-            div.card
-              h2 Audio files
-              .mdc-data-table
-                table.mdc-data-table__table
-                  thead
-                    tr.mdc-data-table__header-row
-                      th.mdc-data-table__header-cell(role="columnheader" scope="col") Filename
-                      th.mdc-data-table__header-cell.mdc-data-table__header-cell--numeric(role="columnheader" scope="col") Size
-                  tbody.mdc-data-table__content
-              .addButton
-                mwc-button(raised label="Add file" icon="add" dense id="fileUploadButton")
-                input(type="file" id="fileUpload" style="display: none;" accept="audio/mpeg")
-            div.card
-            div.card
-            div.card
+            .card
+              include includes/files.pug
+            .card
+              include includes/render.pug
+            .card
+            .card

@@ -19,15 +19,7 @@ module.exports = {
           // Translates CSS into CommonJS
           'css-loader',
           // Compiles Sass to CSS
-          {
-            loader: 'sass-loader',
-            options: {
-              webpackImporter: false,
-              sassOptions: {
-                includePaths: ['./node_modules'],
-              },
-            },
-          },
+          'sass-loader',
         ],
       },
     ],

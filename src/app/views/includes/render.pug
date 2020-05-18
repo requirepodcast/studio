@@ -1,0 +1,18 @@
+h2 Start rendering
+.renderForm
+  .mdc-select
+    .mdc-select__anchor
+      span.mdc-select__ripple
+      input.mdc-select__selected-text(type='text', disabled='', readonly='')
+      i.mdc-select__dropdown-icon
+      span.mdc-floating-label Select audio file
+      span.mdc-line-ripple
+    .mdc-select__menu.mdc-menu.mdc-menu-surface
+      ul.mdc-list.filesToRender
+        li.mdc-list-item.mdc-list-item--selected(data-value='', aria-selected='true')
+
+  div
+    mwc-textarea(label="Episode title")#episodeTitle
+  div
+    mwc-textfield(label="Output filename")#outputFile
+  mwc-button(label="Start" raised dense icon="send")#startButton

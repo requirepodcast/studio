@@ -1,0 +1,11 @@
+h2 Audio files
+.mdc-data-table
+  table.mdc-data-table__table
+    thead
+      tr.mdc-data-table__header-row
+        th.mdc-data-table__header-cell(role="columnheader" scope="col") Filename
+        th.mdc-data-table__header-cell.mdc-data-table__header-cell--numeric(role="columnheader" scope="col") Size
+    tbody.mdc-data-table__content
+.addButton
+  mwc-button(raised label="Add file" icon="add" dense id="fileUploadButton")
+  input(type="file" id="fileUpload" style="display: none;" accept="audio/mpeg")

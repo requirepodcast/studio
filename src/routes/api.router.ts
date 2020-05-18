@@ -25,7 +25,7 @@ router.post('/server/shutdown', protectedApiRoute, (req, res) => {
 router.post(
   '/renderer/start',
   protectedApiRoute,
-  [check('title').exists(), check('audio').exists()],
+  [check('title').exists(), check('audioFile').exists(), check('outputFile').exists()],
   (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -33,7 +33,7 @@ router.post(
     }
 
     try {
-      RendererService.startRendering(req.body.title, req.body.audio);
+      RendererService.startRendering(req.body.title, req.body.audioFile, req.body.outputFile);
     } catch (err) {
       return res.status(409).json({ error: err });
     }
