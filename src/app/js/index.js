@@ -17,13 +17,39 @@ import { MDCSelect } from '@material/select';
 const inputFileSelect = new MDCSelect(document.querySelector('.mdc-select'));
 
 import('socket.io-client').then(({ default: io }) => {
+  const renderLogs = document.querySelector('.renderLogs');
   const socket = io('/', { query: { token: Cookies.get('auth') } });
 
   socket.on('status', ({ isRendering }) => {
-    console.log(isRendering);
+    renderLogs.innerHTML = isRendering ? '' : 'not currently rendering';
   });
 
-  socket.on('progress', e => console.log(e));
+  socket.on('start', e => {
+    renderLogs.innerHTML = 'render logs start <br><br>' + e + '<br>';
+    document.querySelector('#startButton').setAttribute('disabled', 'disabled');
+    getOutputFiles();
+  });
+
+  socket.on('progress', e => {
+    renderLogs.innerHTML += e + '<br>';
+    renderLogs.scrollTop = renderLogs.scrollHeight;
+    renderLogs.scrollLeft = renderLogs.scrollWidth;
+    document.querySelector('#startButton').setAttribute('disabled', 'disabled');
+  });
+
+  socket.on('error', err => {
+    renderLogs.innerHTML += err + '<br>';
+    renderLogs.scrollTop = renderLogs.scrollHeight;
+    renderLogs.scrollLeft = renderLogs.scrollWidth;
+    document.querySelector('#startButton').removeAttribute('disabled');
+  });
+
+  socket.on('finish', e => {
+    renderLogs.innerHTML += e + '<br>';
+    renderLogs.scrollTop = renderLogs.scrollHeight;
+    renderLogs.scrollLeft = renderLogs.scrollWidth;
+    document.querySelector('#startButton').removeAttribute('disabled');
+  });
 });
 
 function getAudioFiles() {
@@ -75,6 +101,24 @@ function getAudioFiles() {
 }
 
 getAudioFiles();
+
+function getOutputFiles() {
+  import('axios').then(({ default: axios }) => {
+    axios.get('/api/v1/output').then(({ data }) => {
+      const outputList = document.querySelector('.outputFiles');
+      for (const file of data) {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<a href="${file}" target="_blank">${file.replace(
+          '/static/output/',
+          '',
+        )}</a>`;
+        outputList.appendChild(listItem);
+      }
+    });
+  });
+}
+
+getOutputFiles();
 
 document.querySelector('#navigationButton').onclick = () => {
   document.querySelector('mwc-drawer').open = !document.querySelector('mwc-drawer').open;

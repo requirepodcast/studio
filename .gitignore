@@ -5,3 +5,5 @@ dist/
 .env
 public/js/
 public/css/
+public/output/*
+!public/output/readme.md

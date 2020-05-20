@@ -7,6 +7,7 @@ import { encodeText } from '../utils/encodeText';
 class RendererService {
   rendererEventEmitter: EventEmitter = new EventEmitter();
   isRendering: boolean = false;
+  currentRender: object;
 
   startRendering(episodeTitle: string, audioFile: string, outputFile: string): string {
     if (!this.isRendering) {
@@ -19,41 +20,62 @@ class RendererService {
           .complexFilter([
             '[2]scale=600:600, fade=in:50:25:alpha=1 [logo]',
             '[1][logo]overlay=180:240 [combined]',
-            `[combined]drawtext=fontfile=FiraCode.ttf:text='${encodeText(
+            `[combined]drawtext=fontfile=./public/assets/FiraCode.ttf:text='${encodeText(
               wordWrap(episodeTitle),
             )}':fontsize=80:fontcolor='#ff5370':x=840:y=(h-text_h)/2:alpha='if(lt(t,4),0,if(lt(t,5),t-4,1))'`,
           ])
           .outputOption('-shortest');
 
+        const renderLog = `./public/output/${outputFile.replace('.mp4', '')}_render.log`;
+        fs.removeSync(renderLog);
+
+        let lastProgress: number;
+
         const output = timeline
           .output(`./public/output/${outputFile}`)
-          .on('start', () =>
-            fs.appendFile(
-              './public/output/render.log',
-              `${new Date()} | Started rendering file ${outputFile}`,
-            ),
-          )
-          .on('progress', e => {
-            fs.appendFile(
-              './public/output/render.log',
-              `${new Date()} | Rendering progress ${Math.floor(e.percent)}% | Filesize ${
-                e.targetSize
-              }`,
+          .on('start', () => {
+            this.rendererEventEmitter.emit(
+              'start',
+              `${new Date()} | Started rendering file ${outputFile} \n`,
             );
-            this.rendererEventEmitter.emit('progress', e);
+            fs.appendFile(renderLog, `${new Date()} | Started rendering file ${outputFile} \n`);
+          })
+          .on('progress', e => {
+            if (Math.floor(e.percent) !== lastProgress) {
+              this.rendererEventEmitter.emit(
+                'progress',
+                `${new Date()} | Rendering progress ${Math.floor(e.percent)}% | Filesize ${
+                  e.targetSize
+                } \n`,
+              );
+              fs.appendFile(
+                renderLog,
+                `${new Date()} | Rendering progress ${Math.floor(e.percent)}% | Filesize ${
+                  e.targetSize
+                } \n`,
+              );
+              lastProgress = Math.floor(e.percent);
+            }
           })
           .on('error', err => {
             this.isRendering = false;
-            this.rendererEventEmitter.emit('error', err);
-            fs.appendFile('./public/output/render.log', `${new Date()} | Rendering error ${err}`);
+            this.rendererEventEmitter.emit('error', `${new Date()} | Rendering error ${err} \n`);
+            fs.appendFile(renderLog, `${new Date()} | Rendering error ${err} \n`);
           })
-          .on('finish', e => {
+          .on('end', e => {
             this.isRendering = false;
-            this.rendererEventEmitter.emit('finish');
-            fs.appendFile('./public/output/render.log', `${new Date()} | Rendering finished!`);
+            this.currentRender = undefined;
+            this.rendererEventEmitter.emit('finish', `${new Date()} | Rendering finished! \n`);
+            fs.appendFile(renderLog, `${new Date()} | Rendering finished! \n`);
           });
 
         this.isRendering = true;
+        this.currentRender = {
+          renderLog,
+          audioFile,
+          outputFile,
+          episodeTitle,
+        };
 
         output.run();
 

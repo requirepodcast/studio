@@ -49,11 +49,21 @@ router.post('/audio/upload', protectedApiRoute, upload.single('audio'), (req, re
   return res.json({ message: 'File successfully uploaded', filename: req.file.filename });
 });
 
-router.get('/audio/', protectedApiRoute, (req, res) => {
+router.get('/audio', protectedApiRoute, (req, res) => {
   return fs.readdir('./public/uploads/').then(fileNames => {
     const files: any[] = [];
     fileNames.map(file => {
       files.push({ name: file, size: prettyBytes(fs.statSync(`./public/uploads/${file}`).size) });
+    });
+    res.json(files);
+  });
+});
+
+router.get('/output', protectedApiRoute, (req, res) => {
+  return fs.readdir('./public/output/').then(fileNames => {
+    const files: any[] = [];
+    fileNames.map(file => {
+      files.push(`/static/output/${file}`);
     });
     res.json(files);
   });

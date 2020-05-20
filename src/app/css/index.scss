@@ -88,3 +88,13 @@
     width: unset;
   }
 }
+
+.renderLogs {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  font-family: monospace;
+  white-space: nowrap;
+  font-size: 10px;
+  display: block;
+}

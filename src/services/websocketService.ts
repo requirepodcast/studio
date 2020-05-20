@@ -9,21 +9,23 @@ export default (http: Server) => {
   io.use(protectedWebsocket);
 
   io.on('connection', socket => {
-    socket.emit('status', { isRendering: RendererService.isRendering });
-
-    RendererService.rendererEventEmitter.on('progress', e => {
-      io.emit(
-        'progress',
-        `${new Date()} | Rendering progress ${Math.floor(e.percent)}% | Filesize ${e.targetSize}`,
-      );
-    });
-
-    RendererService.rendererEventEmitter.on('error', err => {
-      io.emit('error', `${new Date()} | Rendering error ${err}`);
-    });
-
-    RendererService.rendererEventEmitter.on('finish', e => {
-      io.emit('finish', `${new Date()} | Rendering finished!`);
+    socket.emit('status', {
+      isRendering: RendererService.isRendering,
+      currentRender: RendererService.currentRender ? RendererService.currentRender : undefined,
     });
   });
+
+  RendererService.rendererEventEmitter.on('progress', e => {
+    io.emit('progress', e);
+  });
+
+  RendererService.rendererEventEmitter.on('error', err => {
+    io.emit('error', err);
+  });
+
+  RendererService.rendererEventEmitter.on('finish', e => {
+    io.emit('finish', e);
+  });
+
+  RendererService.rendererEventEmitter.on('start', e => io.emit('start', e));
 };
