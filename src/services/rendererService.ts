@@ -3,6 +3,7 @@ import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs-extra';
 import { wordWrap } from '../utils/wordWrap';
 import { encodeText } from '../utils/encodeText';
+import axios from 'axios';
 
 class RendererService {
   rendererEventEmitter: EventEmitter = new EventEmitter();
@@ -39,6 +40,18 @@ class RendererService {
               `${new Date()} | Started rendering file ${outputFile} \n`,
             );
             fs.appendFile(renderLog, `${new Date()} | Started rendering file ${outputFile} \n`);
+            axios.post(
+              'https://require-bot.glitch.me/render/webhook',
+              {
+                title: 'Renderowanie odcinka',
+                description: `Rozpoczęto renderowanie odcinka \`\`\`${episodeTitle}\`\`\``,
+                attachment: `https://requirepodcast-render-server.herokuapp.com/${renderLog.replace(
+                  './',
+                  '',
+                )}`,
+              },
+              { headers: { authorization: process.env.WEBHOOK_KEY } },
+            );
           })
           .on('progress', e => {
             if (Math.floor(e.percent) !== lastProgress) {
@@ -61,12 +74,36 @@ class RendererService {
             this.isRendering = false;
             this.rendererEventEmitter.emit('error', `${new Date()} | Rendering error ${err} \n`);
             fs.appendFile(renderLog, `${new Date()} | Rendering error ${err} \n`);
+            axios.post(
+              'https://require-bot.glitch.me/render/webhook',
+              {
+                title: 'Renderowanie odcinka',
+                description: `Błąd podczas renderowania odcinka \`\`\`${episodeTitle}\`\`\``,
+                attachment: `https://requirepodcast-render-server.herokuapp.com/${renderLog.replace(
+                  './',
+                  '',
+                )}`,
+              },
+              { headers: { authorization: process.env.WEBHOOK_KEY } },
+            );
           })
           .on('end', e => {
             this.isRendering = false;
             this.currentRender = undefined;
             this.rendererEventEmitter.emit('finish', `${new Date()} | Rendering finished! \n`);
             fs.appendFile(renderLog, `${new Date()} | Rendering finished! \n`);
+            axios.post(
+              'https://require-bot.glitch.me/render/webhook',
+              {
+                title: 'Renderowanie odcinka',
+                description: `Zakończono renderowanie odcinka \`\`\`${episodeTitle}\`\`\``,
+                attachment: `https://requirepodcast-render-server.herokuapp.com/${renderLog.replace(
+                  './',
+                  '',
+                )}`,
+              },
+              { headers: { authorization: process.env.WEBHOOK_KEY } },
+            );
           });
 
         this.isRendering = true;

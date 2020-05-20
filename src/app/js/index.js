@@ -42,6 +42,7 @@ import('socket.io-client').then(({ default: io }) => {
     renderLogs.scrollTop = renderLogs.scrollHeight;
     renderLogs.scrollLeft = renderLogs.scrollWidth;
     document.querySelector('#startButton').removeAttribute('disabled');
+    getOutputFiles();
   });
 
   socket.on('finish', e => {
@@ -49,6 +50,7 @@ import('socket.io-client').then(({ default: io }) => {
     renderLogs.scrollTop = renderLogs.scrollHeight;
     renderLogs.scrollLeft = renderLogs.scrollWidth;
     document.querySelector('#startButton').removeAttribute('disabled');
+    getOutputFiles();
   });
 });
 
@@ -106,6 +108,7 @@ function getOutputFiles() {
   import('axios').then(({ default: axios }) => {
     axios.get('/api/v1/output').then(({ data }) => {
       const outputList = document.querySelector('.outputFiles');
+      outputList.innerHTML = '';
       for (const file of data) {
         const listItem = document.createElement('li');
         listItem.innerHTML = `<a href="${file}" target="_blank">${file.replace(
@@ -141,9 +144,7 @@ document.querySelector('#startButton').onclick = () => {
   const episodeTitle = document.querySelector('#episodeTitle').value;
   const outputFile = document.querySelector('#outputFile').value;
 
-  axios
-    .post('/api/v1/renderer/start', { title: episodeTitle, audioFile: inputFile, outputFile })
-    .then(res => console.log(res));
+  axios.post('/api/v1/renderer/start', { title: episodeTitle, audioFile: inputFile, outputFile });
 };
 
 document.querySelector('#fileUploadButton').onclick = () => {
