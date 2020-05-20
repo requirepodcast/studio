@@ -45,10 +45,6 @@ class RendererService {
               {
                 title: 'Renderowanie odcinka',
                 description: `Rozpoczęto renderowanie odcinka \`\`\`${episodeTitle}\`\`\``,
-                attachment: `https://requirepodcast-render-server.herokuapp.com/${renderLog.replace(
-                  './',
-                  '',
-                )}`,
               },
               { headers: { authorization: process.env.WEBHOOK_KEY } },
             );
@@ -80,8 +76,8 @@ class RendererService {
                 title: 'Renderowanie odcinka',
                 description: `Błąd podczas renderowania odcinka \`\`\`${episodeTitle}\`\`\``,
                 attachment: `https://requirepodcast-render-server.herokuapp.com/${renderLog.replace(
-                  './',
-                  '',
+                  './public',
+                  'static',
                 )}`,
               },
               { headers: { authorization: process.env.WEBHOOK_KEY } },
@@ -98,8 +94,8 @@ class RendererService {
                 title: 'Renderowanie odcinka',
                 description: `Zakończono renderowanie odcinka \`\`\`${episodeTitle}\`\`\``,
                 attachment: `https://requirepodcast-render-server.herokuapp.com/${renderLog.replace(
-                  './',
-                  '',
+                  './public',
+                  'static',
                 )}`,
               },
               { headers: { authorization: process.env.WEBHOOK_KEY } },
