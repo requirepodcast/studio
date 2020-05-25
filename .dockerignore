@@ -1,9 +1,2 @@
 .vscode/
-.DS_Store
 node_modules/
-dist/
-.env
-public/js/
-public/css/
-public/output/*
-!public/output/readme.md

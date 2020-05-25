@@ -1,20 +1,21 @@
-FROM node:14-alpine
-RUN apk add --no-cache ffmpeg
+FROM jrottenberg/ffmpeg:4.1-ubuntu
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+RUN apt-get update && apt-get install curl -y
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash
+RUN apt-get install -y nodejs
 
-WORKDIR /home/node/app
+RUN mkdir -p /app/node_modules
+
+WORKDIR /app
 
 COPY package*.json ./
 
-USER node
-
 RUN npm install
 
-COPY --chown=node:node . .
+COPY . .
 
 RUN npm run build
 
 EXPOSE 8080
 
-CMD [ "node", "dist/index.js" ]
+ENTRYPOINT [ "node", "dist/index.js" ]
