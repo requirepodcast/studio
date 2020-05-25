@@ -18,8 +18,18 @@ export default (app: express.Application) => {
       },
       (accessToken: string, refreshToken: string, profile: any, done: Function) => {
         if (acceptedUsers.includes(profile.id)) {
-          console.log(profile);
-          const token = jwt.sign({ id: profile.id, accessToken }, process.env.JWT_KEY);
+          const token = jwt.sign(
+            {
+              id: profile.id,
+              accessToken,
+              user: {
+                displayName: profile.displayName,
+                name: profile.username,
+                email: profile.emails[0].value,
+              },
+            },
+            process.env.JWT_KEY,
+          );
           done(null, { token: token });
         } else {
           done(new Error('User not allowed to access the app'), null);
