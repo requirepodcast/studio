@@ -38,12 +38,17 @@ class RendererService {
 
         const output = timeline
           .output(`./public/output/${outputFile}`)
-          .on('codecData', ({ duration }) => {
+          .on('codecData', data => {
             this.rendererEventEmitter.emit(
               'start',
               `${new Date()} | Started rendering file ${outputFile} \n`,
             );
             addToLog(`${new Date()} | Started rendering file ${outputFile} \n`);
+
+            const duration = data.duration
+              .split(':')
+              .map((val: number, i: number) => val * Math.pow(60, 2 - i))
+              .reduce((a: number, b: number) => a + b, 0);
 
             const est = {
               h: Math.floor((duration * renderRatio) / 3600),
@@ -51,13 +56,13 @@ class RendererService {
             };
             sendNotification({
               title: 'Renderowanie odcinka',
-              description: `Rozpoczęto renderowanie odcinka:
+              description: `***Rozpoczęto renderowanie odcinka:***
               Tytuł: **${episodeTitle}**
               Plik audio: **${audioFile}**
               Plik wideo: **${outputFile}**
               Rozpoczęcie: **${new Date()}**
-              Użytkownik: **${user.displayName}**
-              Przewidywany czas renderowania: **${est.h}:${est.m}**`,
+              Użytkownik: **${user.user.displayName}**
+              Przewidywany czas renderowania: **${est.h} godzin ${est.m} minut**`,
             });
           })
           .on('progress', e => {
@@ -83,7 +88,7 @@ class RendererService {
             addToLog(`${new Date()} | Rendering error ${err} \n`);
             sendNotification({
               title: 'Renderowanie odcinka',
-              description: `Błąd podczas renderowania odcinka:
+              description: `***Błąd podczas renderowania odcinka:***
               Tytuł: **${episodeTitle}**
               Plik audio: **${audioFile}**`,
             });
@@ -95,7 +100,7 @@ class RendererService {
             addToLog(`${new Date()} | Rendering finished! \n`);
             sendNotification({
               title: 'Renderowanie odcinka',
-              description: `Zakończono renderowanie odcinka:
+              description: `***Zakończono renderowanie odcinka:***
               Tytuł: **${episodeTitle}**
               Plik audio: **${audioFile}**
               Plik wideo: **${outputFile}**`,
