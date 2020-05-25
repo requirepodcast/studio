@@ -7,35 +7,21 @@ services:
     ports:
       - '8080:8080'
     restart: unless-stopped
-    networks:
-      - app-network
-  nginx-server:
+    container_name: app
+    image: app
+  nginx:
     image: nginx:mainline-alpine
-    container_name: nginx-server
-    restart: unless-stopped
     ports:
       - '80:80'
+      - '443:443'
     volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
       - ./nginx-conf:/etc/nginx/conf.d
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-    depends_on:
-      - app
-    networks:
-      - app-network
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
   certbot:
     image: certbot/certbot
-    container_name: certbot
     volumes:
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-    depends_on:
-      - nginx-server
-    command: certonly --webroot --webroot-path=/var/www/html --email require@podcast.gq --agree-tos --no-eff-email --staging -d render.podcast.gq
-volumes:
-  certbot-etc:
-  certbot-var:
-
-networks:
-  app-network:
-    driver: bridge
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
