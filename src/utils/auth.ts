@@ -9,13 +9,19 @@ const acceptedUsers: Array<string> = JSON.parse(process.env.ACCEPTED_IDs);
 
 export function protectedAppRoute(req: Request, res: Response, next: NextFunction) {
   isAuthenticated(req.cookies.auth)
-    .then(() => next())
+    .then(user => {
+      req.user = user;
+      next();
+    })
     .catch(() => res.redirect('/login'));
 }
 
 export function protectedApiRoute(req: Request, res: Response, next: NextFunction) {
   isAuthenticated(req.cookies.auth)
-    .then(() => next())
+    .then(user => {
+      req.user = user;
+      next();
+    })
     .catch(() => res.status(401).json({ message: 'User not authenticated' }));
 }
 
@@ -26,7 +32,7 @@ export function isAuthenticated(token: string): Promise<any> {
         reject(false);
       } else {
         if (acceptedUsers.includes(data.id)) {
-          resolve(true);
+          resolve(data);
         } else {
           reject(false);
         }

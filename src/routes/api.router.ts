@@ -69,4 +69,8 @@ router.get('/output', protectedApiRoute, (req, res) => {
   });
 });
 
+router.get('/user', protectedApiRoute, (req, res) => {
+  res.json(req.user);
+});
+
 export default router;

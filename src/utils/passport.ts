@@ -18,6 +18,7 @@ export default (app: express.Application) => {
       },
       (accessToken: string, refreshToken: string, profile: any, done: Function) => {
         if (acceptedUsers.includes(profile.id)) {
+          console.log(profile);
           const token = jwt.sign({ id: profile.id, accessToken }, process.env.JWT_KEY);
           done(null, { token: token });
         } else {
