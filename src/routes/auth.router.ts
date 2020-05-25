@@ -12,8 +12,6 @@ router.get(
   passport.authenticate('github', { failureRedirect: '/login', session: false }),
   (req, res) => {
     // @ts-ignore
-    jwt.verify(req.user.token, process.env.JWT_KEY, (err, data) => console.log(data));
-    // @ts-ignore
     res.cookie('auth', req.user.token, { expires: new Date(Date.now() + 900000) }).redirect('/');
   },
 );

@@ -33,7 +33,12 @@ router.post(
     }
 
     try {
-      RendererService.startRendering(req.body.title, req.body.audioFile, req.body.outputFile);
+      RendererService.startRendering(
+        req.body.title,
+        req.body.audioFile,
+        req.body.outputFile,
+        req.user,
+      );
     } catch (err) {
       return res.status(409).json({ error: err });
     }

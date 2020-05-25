@@ -5,12 +5,14 @@ import { wordWrap } from '../utils/wordWrap';
 import { encodeText } from '../utils/encodeText';
 import { sendNotification } from '../utils/sendNotification';
 
+const renderRatio = 0.93; // Based on my previous render, in the future automatically calculated from other renders
+
 class RendererService {
   rendererEventEmitter: EventEmitter = new EventEmitter();
   isRendering: boolean = false;
   currentRender: object;
 
-  startRendering(episodeTitle: string, audioFile: string, outputFile: string): string {
+  startRendering(episodeTitle: string, audioFile: string, outputFile: string, user: any): string {
     if (!this.isRendering) {
       if (fs.existsSync(`./public/uploads/${audioFile}`)) {
         const timeline = ffmpeg(`./public/uploads/${audioFile}`)
@@ -30,19 +32,32 @@ class RendererService {
         const renderLog = `./public/output/${outputFile.replace('.mp4', '')}_render.log`;
         fs.removeSync(renderLog);
 
+        const addToLog = (message: string) => fs.appendFile(renderLog, message);
+
         let lastProgress: number;
 
         const output = timeline
           .output(`./public/output/${outputFile}`)
-          .on('start', () => {
+          .on('codecData', ({ duration }) => {
             this.rendererEventEmitter.emit(
               'start',
               `${new Date()} | Started rendering file ${outputFile} \n`,
             );
-            fs.appendFile(renderLog, `${new Date()} | Started rendering file ${outputFile} \n`);
+            addToLog(`${new Date()} | Started rendering file ${outputFile} \n`);
+
+            const est = {
+              h: Math.floor((duration * renderRatio) / 3600),
+              m: Math.floor(((duration * renderRatio) % 3600) / 60),
+            };
             sendNotification({
               title: 'Renderowanie odcinka',
-              description: `Rozpoczęto renderowanie odcinka \`\`\`${episodeTitle}\`\`\``,
+              description: `Rozpoczęto renderowanie odcinka:
+              Tytuł: **${episodeTitle}**
+              Plik audio: **${audioFile}**
+              Plik wideo: **${outputFile}**
+              Rozpoczęcie: **${new Date()}**
+              Użytkownik: **${user.displayName}**
+              Przewidywany czas renderowania: **${est.h}:${est.m}**`,
             });
           })
           .on('progress', e => {
@@ -53,8 +68,7 @@ class RendererService {
                   e.targetSize
                 } \n`,
               );
-              fs.appendFile(
-                renderLog,
+              addToLog(
                 `${new Date()} | Rendering progress ${Math.floor(e.percent)}% | Filesize ${
                   e.targetSize
                 } \n`,
@@ -66,20 +80,25 @@ class RendererService {
             this.isRendering = false;
             this.currentRender = undefined;
             this.rendererEventEmitter.emit('error', `${new Date()} | Rendering error ${err} \n`);
-            fs.appendFile(renderLog, `${new Date()} | Rendering error ${err} \n`);
+            addToLog(`${new Date()} | Rendering error ${err} \n`);
             sendNotification({
               title: 'Renderowanie odcinka',
-              description: `Błąd podczas renderowania odcinka \`\`\`${episodeTitle}\`\`\``,
+              description: `Błąd podczas renderowania odcinka:
+              Tytuł: **${episodeTitle}**
+              Plik audio: **${audioFile}**`,
             });
           })
           .on('end', e => {
             this.isRendering = false;
             this.currentRender = undefined;
             this.rendererEventEmitter.emit('finish', `${new Date()} | Rendering finished! \n`);
-            fs.appendFile(renderLog, `${new Date()} | Rendering finished! \n`);
+            addToLog(`${new Date()} | Rendering finished! \n`);
             sendNotification({
               title: 'Renderowanie odcinka',
-              description: `Zakończono renderowanie odcinka \`\`\`${episodeTitle}\`\`\``,
+              description: `Zakończono renderowanie odcinka:
+              Tytuł: **${episodeTitle}**
+              Plik audio: **${audioFile}**
+              Plik wideo: **${outputFile}**`,
             });
           });
 
