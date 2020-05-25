@@ -8,6 +8,8 @@ services:
       - '8080:8080'
     restart: unless-stopped
     container_name: app
+    volumes:
+      - ./public/output:/app/public/output
     image: app
     networks:
       - app-network
