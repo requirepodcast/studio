@@ -1,8 +1,41 @@
 version: '3'
 services:
-  web:
+  app:
     build: .
     env_file:
       - .env
     ports:
-      - '80:8080'
+      - '8080:8080'
+    restart: unless-stopped
+    networks:
+      - app-network
+  nginx-server:
+    image: nginx:mainline-alpine
+    container_name: nginx-server
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - app
+    networks:
+      - app-network
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - nginx-server
+    command: certonly --webroot --webroot-path=/var/www/html --email require@podcast.gq --agree-tos --no-eff-email --staging -d render.podcast.gq
+volumes:
+  certbot-etc:
+  certbot-var:
+
+networks:
+  app-network:
+    driver: bridge
