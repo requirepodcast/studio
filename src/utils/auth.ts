@@ -17,12 +17,21 @@ export function protectedAppRoute(req: Request, res: Response, next: NextFunctio
 }
 
 export function protectedApiRoute(req: Request, res: Response, next: NextFunction) {
-  isAuthenticated(req.cookies.auth)
-    .then(user => {
-      req.user = user;
-      next();
-    })
-    .catch(() => res.status(401).json({ message: 'User not authenticated' }));
+  if (req.headers.ACCESS_TOKEN && req.headers.ACCESS_TOKEN === process.env.ACCESS_TOKEN) {
+    req.user = {
+      id: 0,
+      name: 'Anonymous user',
+      email: 'require@podcast.gq',
+    };
+    next();
+  } else {
+    isAuthenticated(req.cookies.auth)
+      .then(user => {
+        req.user = user;
+        next();
+      })
+      .catch(() => res.status(401).json({ message: 'User not authenticated' }));
+  }
 }
 
 export function isAuthenticated(token: string): Promise<any> {

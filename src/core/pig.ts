@@ -1,36 +1,26 @@
 import { createCanvas, loadImage, registerFont } from 'canvas';
-import fs from 'fs';
+import fs from 'fs-extra';
+import sanitizeFilename from 'sanitize-filename';
 import { wordWrapArray as wordWrap } from '../utils/wordWrap';
 
 registerFont('public/assets/FiraCode.ttf', { family: 'FiraCode' });
 
-const titleFilenameParser = (title: string) =>
-  title
-    .toLowerCase()
-    .replace('(', '-')
-    .replace(')', '-')
-    .replace('#', '-')
-    .replace('ó', 'o')
-    .replace('ł', 'l')
-    .replace('ń', 'n')
-    .replace('ż', 'z')
-    .replace('ź', 'z')
-    .replace('ć', 'c')
-    .replace('ę', 'e')
-    .replace('ś', 's')
-    .replace('ą', 'a')
-    .replace(' ', '-');
+const sanitize = (text: string) => sanitizeFilename(text);
 
 export class PromotionalImageGenerator {
   episodeTitle: string;
   episodeDescription: string;
+  outputDirectory: string;
 
   constructor(episodeTitle: string, episodeDescription: string) {
     this.episodeTitle = episodeTitle;
     this.episodeDescription = episodeDescription;
+    this.outputDirectory = `./public/pig/${sanitize(this.episodeTitle)}`;
+
+    !fs.existsSync(this.outputDirectory) && fs.mkdirSync(this.outputDirectory);
   }
 
-  async generateInstagram() {
+  private async generateInstagram() {
     const canvas = createCanvas(1000, 1000);
     const ctx = canvas.getContext('2d');
 
@@ -81,16 +71,14 @@ export class PromotionalImageGenerator {
     ctx.drawImage(youtube, 325, 925, 50, 50);
 
     const stream = canvas.createPNGStream();
-    const out = fs.createWriteStream(
-      `./public/pig/${titleFilenameParser(this.episodeTitle)}_ig.png`,
-    );
+    const out = fs.createWriteStream(`${this.outputDirectory}/ig.png`);
 
     stream.pipe(out);
 
-    return `/static/pig/${titleFilenameParser(this.episodeTitle)}_ig.png`;
+    return escape(`/static/pig/${sanitize(this.episodeTitle)}/ig.png`);
   }
 
-  async generateTwitter() {
+  private async generateTwitter() {
     const canvas = createCanvas(1200, 675);
     const ctx = canvas.getContext('2d');
 
@@ -129,20 +117,23 @@ export class PromotionalImageGenerator {
       ctx.fillText(line, 575, textBase + titleHeight + 50 + i * 30);
     });
 
-    // Save to file
     const stream = canvas.createPNGStream();
-    const out = fs.createWriteStream(
-      `./public/pig/${titleFilenameParser(this.episodeTitle)}_twitter.png`,
-    );
+    const out = fs.createWriteStream(`${this.outputDirectory}/tw.png`);
 
     stream.pipe(out);
 
-    return `/static/pig/${titleFilenameParser(this.episodeTitle)}_twitter.png`;
+    return escape(`/static/pig/${sanitize(this.episodeTitle)}/tw.png`);
   }
 
-  async generateAll() {
+  async generate() {
     const ig = await this.generateInstagram();
     const tw = await this.generateTwitter();
+    fs.writeJsonSync(`${this.outputDirectory}/data.json`, {
+      episodeTitle: this.episodeTitle,
+      episodeDescription: this.episodeDescription,
+      ig,
+      tw,
+    });
     return { ig, tw };
   }
 }

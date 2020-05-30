@@ -10,3 +10,20 @@ block styles
 
 block content
   .wrapper
+    .topBlock
+      img(src="static/assets/RequireLogo.png")
+      div
+        h1 require podcast studio
+        h4 renderer dashboard
+    .panes
+      .pane
+        h2 PIG (Promotional Images Generator)
+        form.pigForm
+          div
+            mwc-textfield(label="Episode title")#title
+          div
+            mwc-textarea(label="Episode description")#description
+          mwc-button(label="oink" raised dense icon="send")#generate
+      .pane#imagesPane
+        h2 Generated images
+        .images

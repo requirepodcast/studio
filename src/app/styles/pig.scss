@@ -1,1 +1,83 @@
 @import './base.scss';
+
+.wrapper {
+  min-height: calc(100vh - 64px);
+
+  .topBlock {
+    padding: 20px 15px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 100px;
+      height: 100px;
+      margin-right: 20px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    h4 {
+      color: gray;
+      margin: 0;
+      font-weight: normal;
+    }
+  }
+
+  .panes {
+    display: flex;
+    height: 100%;
+    background-color: #fafafa;
+
+    .pane {
+      width: 50%;
+      height: 100%;
+      padding: 20px;
+    }
+
+    @media screen and (max-width: 800px) {
+      flex-direction: column;
+
+      .pane {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.pigForm {
+  margin: 1em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > * {
+    margin-top: 5px;
+    width: 100%;
+
+    > * {
+      width: 100%;
+    }
+  }
+
+  #generate {
+    display: inline-block;
+    margin-top: 1em;
+    width: unset;
+  }
+}
+
+#imagesPane {
+  .pigEpisodeCard {
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    margin: 20px 0;
+
+    .pigImage {
+      width: 100%;
+    }
+  }
+}

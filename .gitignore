@@ -7,3 +7,5 @@ public/js/
 public/css/
 public/renderer/*
 !public/renderer/readme.md
+public/pig/*
+!public/renderer/readme.md

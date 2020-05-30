@@ -80,12 +80,14 @@ router.get('/user', protectedApiRoute, (req, res) => {
 });
 
 router.get('/pig', protectedApiRoute, (req, res) => {
-  return fs.readdir('./public/pig/').then(fileNames => {
-    const files: any[] = [];
-    fileNames.map(file => {
-      files.push(`/static/pig/${file}`);
+  return fs.readdir('./public/pig/').then(folders => {
+    const episodes: any[] = [];
+    folders.map(folder => {
+      if (fs.existsSync(`./public/pig/${folder}/data.json`)) {
+        episodes.push(fs.readJSONSync(`./public/pig/${folder}/data.json`));
+      }
     });
-    res.json(files);
+    res.json({ episodes });
   });
 });
 
@@ -100,7 +102,7 @@ router.post(
     }
 
     const pig = new PromotionalImageGenerator(req.body.title, req.body.description);
-    pig.generateAll().then(urls => {
+    pig.generate().then(urls => {
       return res.json({ ...urls, message: 'Generated promotional images' });
     });
   },

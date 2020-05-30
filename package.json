@@ -8,6 +8,11 @@
     "dev": "nodemon src/index.ts & webpack --watch",
     "build": "tsc && webpack"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "public/pig/*/*.json"
+    ]
+  },
   "dependencies": {
     "@material/mwc-button": "^0.14.1",
     "@material/mwc-drawer": "^0.14.1",
@@ -43,6 +48,7 @@
     "passport-github2": "^0.1.12",
     "pretty-bytes": "^5.3.0",
     "pug": "^2.0.4",
+    "sanitize-filename": "^1.6.3",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "session-file-store": "^1.4.0",
