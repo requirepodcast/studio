@@ -122,7 +122,7 @@ document.querySelector('#startButton').onclick = () => {
   const episodeTitle = document.querySelector('#episodeTitle').value;
   const outputFile = document.querySelector('#outputFile').value;
 
-  axios.post('/api/v1/renderer/start', { title: episodeTitle, audioFile: inputFile, outputFile });
+  axios.post('/api/v1/renderer', { title: episodeTitle, audioFile: inputFile, outputFile });
 };
 
 document.querySelector('#fileUploadButton').onclick = () => {

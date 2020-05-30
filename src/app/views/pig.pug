@@ -1,0 +1,12 @@
+extends templates/layout.pug
+
+block scripts
+  script(src="/static/js/pig.bundle.js" defer)
+  script(src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js")
+
+block styles
+  link(href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet")
+  link(href="/static/css/pig.bundle.css" rel="stylesheet")
+
+block content
+  .wrapper

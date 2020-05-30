@@ -9,41 +9,18 @@ block styles
   link(rel="stylesheet", href="static/css/renderer.bundle.css")
 
 block content
-  mwc-drawer(type="modal" hasHeader)
-    div(slot="title") Main menu
-    div(slot="subtitle") require podcast studio
-    div
-      mwc-list
-        a(href="/" style="text-decoration: none;")
-          mwc-list-item(graphic="avatar")
-            span Home
-            mwc-icon(slot="graphic") home
-        a(href="/renderer" style="text-decoration: none;")
-          mwc-list-item(graphic="avatar")
-            span Episode renderer
-            mwc-icon(slot="graphic") movie
-        a(href="/pig" style="text-decoration: none;")
-          mwc-list-item(graphic="avatar")
-            span PIG
-            mwc-icon(slot="graphic") photo
-
-    div(slot="appContent")
-      mwc-top-app-bar(centerTitle style="--mdc-theme-primary: rgb(29, 31, 45)")
-        mwc-icon-button(icon="menu" slot="navigationIcon" id="navigationButton")
-        div(slot="title") studio
-        mwc-icon-button(icon="logout" slot="actionItems" id="logoutButton")
-        .wrapper
-          .topBlock
-            img(src="static/assets/RequireLogo.png")
-            div
-              h1 require podcast studio
-              h4 renderer dashboard
-          .cards
-            .card
-              include includes/files.pug
-            .card
-              include includes/render.pug
-            .card(style="overflow: hidden;")
-              include includes/logs.pug
-            .card
-              include includes/output.pug
+  .wrapper
+    .topBlock
+      img(src="static/assets/RequireLogo.png")
+      div
+        h1 require podcast studio
+        h4 renderer dashboard
+    .cards
+      .card
+        include includes/files.pug
+      .card
+        include includes/render.pug
+      .card(style="overflow: hidden;")
+        include includes/logs.pug
+      .card
+        include includes/output.pug

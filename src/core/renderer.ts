@@ -61,7 +61,7 @@ class RendererService {
               Plik audio: **${audioFile}**
               Plik wideo: **${outputFile}**
               Rozpoczęcie: **${new Date()}**
-              Użytkownik: **${user.user.displayName}**
+              Użytkownik: **${user.name}**
               Przewidywany czas renderowania: **${est.h} godzin ${est.m} minut**`,
             });
           })

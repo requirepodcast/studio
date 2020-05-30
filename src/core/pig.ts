@@ -86,6 +86,8 @@ export class PromotionalImageGenerator {
     );
 
     stream.pipe(out);
+
+    return `/static/pig/${titleFilenameParser(this.episodeTitle)}_ig.png`;
   }
 
   async generateTwitter() {
@@ -134,10 +136,13 @@ export class PromotionalImageGenerator {
     );
 
     stream.pipe(out);
+
+    return `/static/pig/${titleFilenameParser(this.episodeTitle)}_twitter.png`;
   }
 
   async generateAll() {
-    await this.generateInstagram();
-    await this.generateTwitter();
+    const ig = await this.generateInstagram();
+    const tw = await this.generateTwitter();
+    return { ig, tw };
   }
 }

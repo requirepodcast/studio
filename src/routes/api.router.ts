@@ -5,6 +5,7 @@ import { protectedApiRoute } from '../utils/auth';
 import RendererService from '../core/renderer';
 import fs from 'fs-extra';
 import prettyBytes from 'pretty-bytes';
+import { PromotionalImageGenerator } from '../core/pig';
 
 const router = express.Router();
 const storage = multer.diskStorage({
@@ -23,7 +24,7 @@ router.post('/server/shutdown', protectedApiRoute, (req, res) => {
 });
 
 router.post(
-  '/renderer/start',
+  '/renderer',
   protectedApiRoute,
   [check('title').exists(), check('audioFile').exists(), check('outputFile').exists()],
   (req: Request, res: Response) => {
@@ -89,7 +90,7 @@ router.get('/pig', protectedApiRoute, (req, res) => {
 });
 
 router.post(
-  '/pig/start',
+  '/pig',
   protectedApiRoute,
   [check('title').exists(), check('description').exists()],
   (req: Request, res: Response) => {
@@ -97,6 +98,11 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ error: `Invalid arguments`, errors });
     }
+
+    const pig = new PromotionalImageGenerator(req.body.title, req.body.description);
+    pig.generateAll().then(urls => {
+      return res.json({ ...urls, message: 'Generated promotional images' });
+    });
   },
 );
 

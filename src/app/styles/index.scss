@@ -1,1 +1,11 @@
 @import './base.scss';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+.wrapper {
+  padding: 50px;
+
+  .welcome {
+    font-size: 4em;
+    font-family: 'Montserrat', sans-serif;
+  }
+}

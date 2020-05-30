@@ -21,12 +21,8 @@ export default (app: express.Application) => {
           const token = jwt.sign(
             {
               id: profile.id,
-              accessToken,
-              user: {
-                displayName: profile.displayName,
-                name: profile.username,
-                email: profile.emails[0].value,
-              },
+              name: profile.displayName,
+              email: profile.emails[0].value,
             },
             process.env.JWT_KEY,
           );
