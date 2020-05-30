@@ -24,6 +24,7 @@
     "@webcomponents/webcomponentsjs": "^2.4.3",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
+    "canvas": "^2.6.1",
     "cookie-parser": "^1.4.5",
     "css-loader": "^3.5.3",
     "dotenv": "^8.2.0",

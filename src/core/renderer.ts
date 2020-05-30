@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs-extra';
-import { wordWrap } from '../utils/wordWrap';
+import { wordWrapString as wordWrap } from '../utils/wordWrap';
 import { encodeText } from '../utils/encodeText';
 import { sendNotification } from '../utils/sendNotification';
 
@@ -29,7 +29,7 @@ class RendererService {
           ])
           .outputOption('-shortest');
 
-        const renderLog = `./public/output/${outputFile.replace('.mp4', '')}_render.log`;
+        const renderLog = `./public/renderer/${outputFile.replace('.mp4', '')}_render.log`;
         fs.removeSync(renderLog);
 
         const addToLog = (message: string) => fs.appendFile(renderLog, message);
@@ -37,7 +37,7 @@ class RendererService {
         let lastProgress: number;
 
         const output = timeline
-          .output(`./public/output/${outputFile}`)
+          .output(`./public/renderer/${outputFile}`)
           .on('codecData', data => {
             this.rendererEventEmitter.emit(
               'start',

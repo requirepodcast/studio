@@ -1,12 +1,12 @@
 extends templates/layout.pug
 
 block scripts
-  script(src="static/js/index.bundle.js" defer)
+  script(src="static/js/renderer.bundle.js" defer)
   script(src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js")
 
 block styles
   link(href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet")
-  link(href="static/css/index.bundle.css" rel="stylesheet")
+  link(rel="stylesheet", href="static/css/renderer.bundle.css")
 
 block content
   mwc-drawer(type="modal" hasHeader)
@@ -33,3 +33,17 @@ block content
         div(slot="title") studio
         mwc-icon-button(icon="logout" slot="actionItems" id="logoutButton")
         .wrapper
+          .topBlock
+            img(src="static/assets/RequireLogo.png")
+            div
+              h1 require podcast studio
+              h4 renderer dashboard
+          .cards
+            .card
+              include includes/files.pug
+            .card
+              include includes/render.pug
+            .card(style="overflow: hidden;")
+              include includes/logs.pug
+            .card
+              include includes/output.pug

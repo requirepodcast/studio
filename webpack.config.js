@@ -2,7 +2,11 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: { index: './src/app/js/index.js', login: './src/app/js/login.js' },
+  entry: {
+    renderer: './src/app/js/renderer.js',
+    login: './src/app/js/login.js',
+    index: './src/app/js/index.js',
+  },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'public/js'),

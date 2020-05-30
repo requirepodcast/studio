@@ -1,7 +1,7 @@
 import socketServer from 'socket.io';
 import { Server } from 'http';
 import { protectedWebsocket } from '../utils/auth';
-import RendererService from './rendererService';
+import RendererService from '../core/renderer';
 
 export default (http: Server) => {
   const io = socketServer(http);

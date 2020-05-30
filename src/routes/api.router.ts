@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import multer from 'multer';
 import { protectedApiRoute } from '../utils/auth';
-import RendererService from '../services/rendererService';
+import RendererService from '../core/renderer';
 import fs from 'fs-extra';
 import prettyBytes from 'pretty-bytes';
 
@@ -65,10 +65,10 @@ router.get('/audio', protectedApiRoute, (req, res) => {
 });
 
 router.get('/output', protectedApiRoute, (req, res) => {
-  return fs.readdir('./public/output/').then(fileNames => {
+  return fs.readdir('./public/renderer/').then(fileNames => {
     const files: any[] = [];
     fileNames.map(file => {
-      files.push(`/static/output/${file}`);
+      files.push(`/static/renderer/${file}`);
     });
     res.json(files);
   });
@@ -77,5 +77,27 @@ router.get('/output', protectedApiRoute, (req, res) => {
 router.get('/user', protectedApiRoute, (req, res) => {
   res.json(req.user);
 });
+
+router.get('/pig', protectedApiRoute, (req, res) => {
+  return fs.readdir('./public/pig/').then(fileNames => {
+    const files: any[] = [];
+    fileNames.map(file => {
+      files.push(`/static/pig/${file}`);
+    });
+    res.json(files);
+  });
+});
+
+router.post(
+  '/pig/start',
+  protectedApiRoute,
+  [check('title').exists(), check('description').exists()],
+  (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: `Invalid arguments`, errors });
+    }
+  },
+);
 
 export default router;
