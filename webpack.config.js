@@ -6,6 +6,7 @@ module.exports = {
     renderer: './src/app/js/renderer.js',
     login: './src/app/js/login.js',
     index: './src/app/js/index.js',
+    pig: './src/app/js/pig.js',
   },
   output: {
     filename: '[name].bundle.js',

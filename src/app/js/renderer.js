@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 import './base';
-import '../css/renderer.scss';
+import '../styles/renderer.scss';
 import '@material/mwc-button';
 import '@material/mwc-textfield';
 import '@material/mwc-textarea';

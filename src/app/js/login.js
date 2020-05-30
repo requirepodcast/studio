@@ -1,5 +1,5 @@
 import '@webcomponents/webcomponentsjs/webcomponents-loader.js';
-import '../css/login.scss';
+import '../styles/login.scss';
 
 import '@material/mwc-button';
 
