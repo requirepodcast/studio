@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(render-server.podcast.gq)
+domains=(studio.podcast.gq)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="require@podcast.gq" # Adding a valid address is strongly recommended
