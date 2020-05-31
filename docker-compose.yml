@@ -9,7 +9,8 @@ services:
     restart: unless-stopped
     container_name: app
     volumes:
-      - ./public/output:/app/public/output
+      - ./public/renderer:/app/public/renderer
+      - ./public/pig:/app/public/pig
     image: app
     networks:
       - app-network
