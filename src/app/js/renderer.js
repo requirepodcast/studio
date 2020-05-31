@@ -6,6 +6,7 @@ import '../styles/renderer.scss';
 import '@material/mwc-button';
 import '@material/mwc-textfield';
 import '@material/mwc-textarea';
+import '@material/mwc-linear-progress';
 import { MDCSelect } from '@material/select';
 
 const inputFileSelect = new MDCSelect(document.querySelector('.mdc-select'));
@@ -132,6 +133,27 @@ document.querySelector('#fileUploadButton').onclick = () => {
   fileUpload.addEventListener('change', () => {
     const formData = new FormData();
     formData.append('audio', fileUpload.files[0]);
-    axios.post('/api/v1/audio/upload', formData).then(getAudioFiles);
+
+    const progressOverlay = document.createElement('div');
+    progressOverlay.setAttribute('class', 'uploadProgressOverlay');
+    const progressWrapper = document.createElement('div');
+    progressWrapper.setAttribute('class', 'uploadProgressWrapper');
+    const progress = document.createElement('mwc-linear-progress');
+    progress.setAttribute('progress', '0');
+
+    progressWrapper.appendChild(progress);
+    progressOverlay.appendChild(progressWrapper);
+    document.body.appendChild(progressOverlay);
+
+    axios
+      .put('/api/v1/audio/upload', formData, {
+        onUploadProgress: e => {
+          progress.setAttribute('progress', (e.loaded / e.total).toString());
+        },
+      })
+      .then(() => {
+        document.body.removeChild(progressOverlay);
+        getAudioFiles();
+      });
   });
 };

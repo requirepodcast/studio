@@ -48,7 +48,7 @@ router.post(
   },
 );
 
-router.post('/audio/upload', protectedApiRoute, upload.single('audio'), (req, res) => {
+router.put('/audio/upload', protectedApiRoute, upload.single('audio'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'Did not uplaod any file' });
   }
