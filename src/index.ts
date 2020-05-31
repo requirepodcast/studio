@@ -14,7 +14,7 @@ app.set('view engine', 'pug');
 app.set('views', './src/app/views');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '250mb' }));
 app.use(cookieParser());
 app.use(morgan('tiny'));
 passportInit(app);
