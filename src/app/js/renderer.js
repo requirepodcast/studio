@@ -154,6 +154,10 @@ document.querySelector('#fileUploadButton').onclick = () => {
       .then(() => {
         document.body.removeChild(progressOverlay);
         getAudioFiles();
+      })
+      .catch(() => {
+        document.body.removeChild(progressOverlay);
+        alert('Error while uploading file');
       });
   });
 };
