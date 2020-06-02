@@ -106,10 +106,25 @@ function getOutputFiles() {
       outputList.innerHTML = '';
       for (const file of data) {
         const listItem = document.createElement('li');
-        listItem.innerHTML = `<a href="${file}" target="_blank">${file.replace(
-          '/static/output/',
-          '',
-        )}</a>`;
+
+        const fileLink = document.createElement('a');
+        fileLink.setAttribute('href', file);
+        fileLink.setAttribute('target', '_blank');
+        fileLink.textContent = file;
+
+        const deleteFile = document.createElement('a');
+        deleteFile.setAttribute('href', '#');
+        deleteFile.setAttribute('style', 'color: red');
+        deleteFile.addEventListener('click', () => {
+          axios.delete('/api/v1/output', { data: { file: file.replace('/static/renderer/', '') } });
+          getOutputFiles();
+        });
+        deleteFile.textContent = 'Delete';
+
+        listItem.appendChild(fileLink);
+        listItem.innerHTML += ' ';
+        listItem.appendChild(deleteFile);
+
         outputList.appendChild(listItem);
       }
     });

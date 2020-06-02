@@ -75,6 +75,21 @@ router.get('/output', protectedApiRoute, (req, res) => {
   });
 });
 
+router.delete(
+  '/output',
+  protectedApiRoute,
+  [check('file').exists()],
+  (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: `Invalid arguments`, errors });
+    }
+
+    fs.removeSync(`./public/renderer/${req.body.file}`);
+    return res.json({ message: `Deleted file '${req.body.file}'` });
+  },
+);
+
 router.get('/user', protectedApiRoute, (req, res) => {
   res.json(req.user);
 });
