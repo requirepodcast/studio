@@ -12,7 +12,7 @@ router.get(
   passport.authenticate('github', { failureRedirect: '/login', session: false }),
   (req, res) => {
     // @ts-ignore
-    res.cookie('auth', req.user.token, { expires: 2147483647 }).redirect('/');
+    res.cookie('auth', req.user.token, { maxAge: 2147483647 }).redirect('/');
   },
 );
 
