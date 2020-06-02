@@ -108,4 +108,19 @@ router.post(
   },
 );
 
+router.delete(
+  '/pig',
+  protectedApiRoute,
+  [check('episode').exists()],
+  (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: `Invalid arguments`, errors });
+    }
+
+    fs.removeSync(`./public/pig/${req.body.episode}`);
+    return res.json({ message: `Deleted episode '${req.body.episode}' from PIG` });
+  },
+);
+
 export default router;
