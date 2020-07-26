@@ -1,11 +1,9 @@
 import { createCanvas, loadImage, registerFont } from 'canvas';
+import slugify from 'slugify';
 import fs from 'fs-extra';
-import sanitizeFilename from 'sanitize-filename';
 import { wordWrapArray as wordWrap } from '../utils/wordWrap';
 
 registerFont('public/assets/FiraCode.ttf', { family: 'FiraCode' });
-
-const sanitize = (text: string) => sanitizeFilename(text);
 
 export class PromotionalImageGenerator {
   episodeTitle: string;
@@ -15,7 +13,7 @@ export class PromotionalImageGenerator {
   constructor(episodeTitle: string, episodeDescription: string) {
     this.episodeTitle = episodeTitle;
     this.episodeDescription = episodeDescription;
-    this.outputDirectory = `./public/pig/${sanitize(this.episodeTitle)}`;
+    this.outputDirectory = `./public/pig/${slugify(this.episodeTitle)}`;
 
     !fs.existsSync(this.outputDirectory) && fs.mkdirSync(this.outputDirectory);
   }
@@ -75,7 +73,7 @@ export class PromotionalImageGenerator {
 
     stream.pipe(out);
 
-    return escape(`/static/pig/${sanitize(this.episodeTitle)}/ig.png`);
+    return escape(`/static/pig/${slugify(this.episodeTitle)}/ig.png`);
   }
 
   private async generateTwitter() {
@@ -122,7 +120,7 @@ export class PromotionalImageGenerator {
 
     stream.pipe(out);
 
-    return escape(`/static/pig/${sanitize(this.episodeTitle)}/tw.png`);
+    return escape(`/static/pig/${slugify(this.episodeTitle)}/tw.png`);
   }
 
   async generate() {

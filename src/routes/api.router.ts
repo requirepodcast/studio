@@ -6,6 +6,7 @@ import RendererService from '../core/renderer';
 import fs from 'fs-extra';
 import prettyBytes from 'pretty-bytes';
 import { PromotionalImageGenerator } from '../core/pig';
+import slugify from 'slugify';
 
 const router = express.Router();
 const storage = multer.diskStorage({
@@ -123,19 +124,9 @@ router.post(
   },
 );
 
-router.delete(
-  '/pig',
-  protectedApiRoute,
-  [check('episode').exists()],
-  (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ error: `Invalid arguments`, errors });
-    }
-
-    fs.removeSync(`./public/pig/${req.body.episode}`);
-    return res.json({ message: `Deleted episode '${req.body.episode}' from PIG` });
-  },
-);
+router.delete('/pig/:episode', protectedApiRoute, (req: Request, res: Response) => {
+  fs.removeSync(`./public/pig/${slugify(req.params.episode)}`);
+  return res.json({ message: `Deleted episode '${slugify(req.params.episode)}' from PIG` });
+});
 
 export default router;

@@ -30,7 +30,7 @@ function getImages() {
       deleteButton.setAttribute('dense', 'dense');
       deleteButton.setAttribute('icon', 'delete');
       deleteButton.addEventListener('click', () => {
-        axios.delete('/api/v1/pig', { data: { episode: episode.episodeTitle } }).then(() => {
+        axios.delete(`/api/v1/pig/${encodeURIComponent(episode.episodeTitle)}`).then(() => {
           getImages();
         });
       });
