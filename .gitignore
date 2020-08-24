@@ -5,7 +5,15 @@ dist/
 .env
 public/js/
 public/css/
+
 public/renderer/*
 !public/renderer/readme.md
+
 public/pig/*
 !public/renderer/readme.md
+
+public/uploads/*
+!public/uploads/Chelsea\ Loft\ Long.mp3
+!public/uploads/Laszlo\ -\ Supernova.gmp3
+!public/uploads/Nymano\ -\ Solitude.mp3
+!public/uploads/Song\ for\ Denise\ (Maxi\ Version).mp3
