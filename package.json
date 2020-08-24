@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts & webpack --watch",
+    "dev": "NODE_ENV=development nodemon src/index.ts & webpack --watch",
     "build": "tsc && webpack"
   },
   "nodemonConfig": {

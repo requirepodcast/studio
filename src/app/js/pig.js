@@ -19,10 +19,14 @@ function getImages() {
       const ig = document.createElement('img');
       ig.setAttribute('src', episode.ig);
       ig.setAttribute('class', 'pigImage');
+      ig.addEventListener('click', () => window.location.assign(episode.ig));
+      ig.addEventListener('touchstart', () => window.location.assign(episode.ig));
 
       const tw = document.createElement('img');
       tw.setAttribute('src', episode.tw);
       tw.setAttribute('class', 'pigImage');
+      ig.addEventListener('click', () => window.location.assign(episode.tw));
+      ig.addEventListener('touchstart', () => window.location.assign(episode.tw));
 
       const deleteButton = document.createElement('mwc-button');
       deleteButton.setAttribute('label', 'Delete');
