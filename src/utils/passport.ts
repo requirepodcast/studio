@@ -14,7 +14,7 @@ export default (app: express.Application) => {
       {
         clientID: 'e929645c814cc93c0d25',
         clientSecret: process.env.GH_CLIENT_SECRET,
-        callbackURL: 'https://studio.podcast.gq/auth/github/callback',
+        callbackURL: 'https://requirepodcast-studio.azurewebsites.net/auth/github/callback',
       },
       (accessToken: string, refreshToken: string, profile: any, done: Function) => {
         if (acceptedUsers.includes(profile.id)) {
