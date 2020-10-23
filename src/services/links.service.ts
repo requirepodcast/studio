@@ -1,4 +1,7 @@
 import faunadb from 'faunadb';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const q = faunadb.query;
 const client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET });
@@ -12,7 +15,9 @@ interface Link {
 
 export default {
   async getAll(): Promise<Link[]> {
-    return await client.query(q.Map(q.Paginate(q.Match(q.Index('links'))), ref => q.Get(ref)));
+    return await client
+      .query(q.Map(q.Paginate(q.Documents(q.Collection('links'))), ref => q.Get(ref)))
+      .then((res: { data: Link[] }) => res.data);
   },
   async get(slug: string): Promise<Link> {
     return await client.query(q.Get(q.Match(q.Index('links'), slug)));
@@ -21,6 +26,8 @@ export default {
     return await client.query(q.Create(q.Collection('links'), { data: { slug, destination } }));
   },
   async delete(slug: string) {
-    return await client.query(q.Delete(q.Match(q.Index('links'), slug)));
+    return await client.query(q.Get(q.Match(q.Index('links'), slug))).then(async (ret: any) => {
+      return await client.query(q.Delete(ret.ref));
+    });
   },
 };

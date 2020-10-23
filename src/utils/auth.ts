@@ -17,7 +17,7 @@ export function protectedAppRoute(req: Request, res: Response, next: NextFunctio
 }
 
 export function protectedApiRoute(req: Request, res: Response, next: NextFunction) {
-  if (req.headers.ACCESS_TOKEN && req.headers.ACCESS_TOKEN === process.env.ACCESS_TOKEN) {
+  if (req.headers['access-token'] && req.headers['access-token'] === process.env.ACCESS_TOKEN) {
     req.user = {
       id: 0,
       name: 'Anonymous user',

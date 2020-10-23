@@ -1,7 +1,6 @@
 import express from 'express';
 import passport from 'passport';
 import { protectedAppRoute } from '../utils/auth';
-import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 

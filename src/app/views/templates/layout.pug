@@ -5,6 +5,7 @@ html(lang="en")
     link(rel="shortcut icon" href="/static/assets/RequireLogo.png")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     block styles
+    block scripts
   body
     mwc-drawer(type="modal" hasHeader)
       div(slot="title") Main menu
@@ -23,11 +24,13 @@ html(lang="en")
             mwc-list-item(graphic="avatar")
               span PIG
               mwc-icon(slot="graphic") photo
+          a(href="/shortener" style="text-decoration: none;")
+            mwc-list-item(graphic="avatar")
+              span Link shortener
+              mwc-icon(slot="graphic") launch
     div(slot="appContent")
       mwc-top-app-bar(centerTitle style="--mdc-theme-primary: rgb(29, 31, 45)")
         mwc-icon-button(icon="menu" slot="navigationIcon" id="navigationButton")
         div(slot="title") studio
         mwc-icon-button(icon="logout" slot="actionItems" id="logoutButton")
         block content
-
-    block scripts
