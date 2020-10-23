@@ -12,9 +12,9 @@ export default (app: express.Application) => {
   passport.use(
     new GithubStrategy(
       {
-        clientID: 'e929645c814cc93c0d25',
+        clientID: process.env.GH_CLIENT_ID,
         clientSecret: process.env.GH_CLIENT_SECRET,
-        callbackURL: 'https://requirepodcast-studio.azurewebsites.net/auth/github/callback',
+        callbackURL: process.env.GH_CALLBACK,
       },
       (accessToken: string, refreshToken: string, profile: any, done: Function) => {
         if (acceptedUsers.includes(profile.id)) {

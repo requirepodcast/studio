@@ -129,4 +129,8 @@ router.delete('/pig/:episode', protectedApiRoute, (req: Request, res: Response) 
   return res.json({ message: `Deleted episode '${slugify(req.params.episode)}' from PIG` });
 });
 
+import shortenerRouter from './shortener.router';
+
+router.use('/shortener', shortenerRouter);
+
 export default router;

@@ -29,7 +29,7 @@ app.use('/', main);
 app.use('/api/v1', api);
 app.use('/auth', auth);
 
-import websocketService from './services/websocketService';
+import websocketService from './services/websocket.service';
 
 const server = http.createServer(app);
 websocketService(server);
