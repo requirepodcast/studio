@@ -69,9 +69,7 @@ router.get('/audio', protectedApiRoute, (req, res) => {
 router.get('/output', protectedApiRoute, (req, res) => {
   return fs.readdir('./public/renderer/').then(fileNames => {
     const files: any[] = [];
-    fileNames.map(file => {
-      files.push(`/static/renderer/${file}`);
-    });
+    fileNames.map(file => file !== 'readme.md' && files.push(`/static/renderer/${file}`));
     res.json(files);
   });
 });

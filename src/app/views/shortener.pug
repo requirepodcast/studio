@@ -1,0 +1,23 @@
+extends templates/layout.pug
+
+block scripts
+  script(src="/static/js/shortener.bundle.js" defer)
+  script(src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js")
+
+block styles
+  link(href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet")
+  link(href="/static/css/shortener.bundle.css" rel="stylesheet")
+
+block content
+  .wrapper
+    .topBlock
+      img(src="static/assets/RequireLogo.png")
+      div
+        h1 require podcast studio
+        h4 link shortener
+    form.linkForm
+      h3 Add new link
+      mwc-textfield(label="Slug")#slug
+      mwc-textfield(label="Destination" type="url")#dest
+      div
+        mwc-button(label="Create" raised dense icon="create")#create

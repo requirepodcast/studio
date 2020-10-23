@@ -1,0 +1,10 @@
+@import './base.scss';
+
+.linkForm {
+  padding: 15px 20px;
+
+  & > mwc-textfield {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}

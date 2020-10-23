@@ -15,6 +15,10 @@ router.get('/pig', protectedAppRoute, (req, res) => {
   return res.render('pig.pug', { title: 'promotional image generator' });
 });
 
+router.get('/shortener', protectedAppRoute, (req, res) => {
+  return res.render('shortener.pug', { title: 'images shortener' });
+});
+
 router.get('/login', (req, res) => {
   isAuthenticated(req.cookies.auth)
     .then(() => res.redirect('/'))

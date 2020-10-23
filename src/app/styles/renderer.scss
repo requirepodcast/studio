@@ -1,37 +1,5 @@
 @import './base.scss';
 
-.demo-width-class {
-  width: 400px;
-}
-
-.wrapper {
-  background-color: #f5f5f5;
-  min-height: calc(100vh - 64px);
-}
-
-.topBlock {
-  padding: 20px 15px;
-  background-color: #fafafa;
-  display: flex;
-  align-items: center;
-
-  img {
-    width: 100px;
-    height: 100px;
-    margin-right: 20px;
-  }
-
-  h1 {
-    margin: 0;
-  }
-
-  h4 {
-    color: gray;
-    margin: 0;
-    font-weight: normal;
-  }
-}
-
 .cards {
   display: grid;
   grid-template-columns: 1fr 1fr;

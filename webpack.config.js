@@ -7,6 +7,7 @@ module.exports = {
     login: './src/app/js/login.js',
     index: './src/app/js/index.js',
     pig: './src/app/js/pig.js',
+    shortener: './src/app/js/shortener.js'
   },
   output: {
     filename: '[name].bundle.js',
