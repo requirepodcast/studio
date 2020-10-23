@@ -21,3 +21,12 @@ block content
       mwc-textfield(label="Destination" type="url")#dest
       div
         mwc-button(label="Create" raised dense icon="create")#create
+    .linksWrapper
+      h2 Links
+      .mdc-data-table
+        table.mdc-data-table__table
+          thead
+            tr.mdc-data-table__header-row
+              th.mdc-data-table__header-cell(role="columnheader" scope="col") Slug
+              th.mdc-data-table__header-cell(role="columnheader" scope="col") Destination
+          tbody.mdc-data-table__content
