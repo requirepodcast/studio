@@ -4,9 +4,11 @@ import '../styles/shortener.scss'
 import '@material/mwc-textfield';
 import '@material/mwc-button';
 
+import isURL from 'validator/es/lib/isURL';
+
 function getLinks() {
-  import('axios').then(({ default: axios }) => {
-    axios.get('/api/v1/shortener').then(({data}) => {
+  return import('axios').then(({ default: axios }) => {
+    return axios.get('/api/v1/shortener').then(({data}) => {
       const dataTable = document.querySelector('.mdc-data-table__content');
 
       dataTable.innerHTML = '';
@@ -36,5 +38,21 @@ function getLinks() {
     })
   })
 }
+
+document.querySelector('#create').addEventListener('click', () => {
+  const slug = document.querySelector('#slug').value;
+  const destination = document.querySelector('#dest').value;
+
+  if (slug !== '' && isURL(destination)) {
+    import('axios').then(({default: axios}) => {
+      axios.post('/api/v1/shortener', { slug, destination }).then(() => {
+        getLinks().then(() => {
+          document.querySelector('#slug').value = "";
+          document.querySelector('#dest').value = "";
+        });
+      })
+    })
+  }
+})
 
 getLinks()
