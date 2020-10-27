@@ -2,11 +2,6 @@
 
 .linkForm {
   padding: 15px 20px;
-
-  & > mwc-textfield {
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
 }
 
 .linksWrapper {
@@ -17,4 +12,14 @@
   margin: 1em 0;
   display: flex;
   justify-content: center;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  & > * {
+    margin-right: 10px;
+  }
 }

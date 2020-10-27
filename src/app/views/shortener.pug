@@ -6,6 +6,7 @@ block scripts
 
 block styles
   link(href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet")
+  link(href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet")
   link(href="/static/css/shortener.bundle.css" rel="stylesheet")
 
 block content
@@ -17,8 +18,10 @@ block content
         h4 link shortener
     form.linkForm
       h3 Add new link
-      mwc-textfield(label="Slug")#slug
-      mwc-textfield(label="Destination" type="url")#dest
+      .inputs
+        mwc-icon-button(icon="shuffle")#random
+        mwc-textfield(label="Slug")#slug
+        mwc-textfield(label="Destination" type="url")#dest
       div
         mwc-button(label="Create" raised dense icon="create")#create
     .linksWrapper
@@ -29,4 +32,6 @@ block content
             tr.mdc-data-table__header-row
               th.mdc-data-table__header-cell(role="columnheader" scope="col") Slug
               th.mdc-data-table__header-cell(role="columnheader" scope="col") Destination
+              th.mdc-data-table__header-cell(role="columnheader" scope="col") Link (click to copy)
           tbody.mdc-data-table__content
+        mwc-snackbar(id="copiedSnackbar" labelText="Copied link to clipboard" leading)

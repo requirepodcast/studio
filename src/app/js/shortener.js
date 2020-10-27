@@ -3,8 +3,17 @@ import '../styles/shortener.scss'
 
 import '@material/mwc-textfield';
 import '@material/mwc-button';
+import '@material/mwc-icon-button';
+import '@material/mwc-snackbar';
 
 import isURL from 'validator/es/lib/isURL';
+import copy from 'copy-text-to-clipboard';
+
+const copiedSnackbar = document.querySelector("#copiedSnackbar")
+
+function randomSlug(len = 5) {
+  return Math.random().toString(36).substr(2, len)
+}
 
 function getLinks() {
   return import('axios').then(({ default: axios }) => {
@@ -30,8 +39,19 @@ function getLinks() {
 
         linkDest.appendChild(linkDestLink)
 
+        const linkShortened = document.createElement('td');
+        const url = `https://📦🎙.gq/${link.slug}`
+        linkShortened.setAttribute('class', 'mdc-data-table__cell')
+        linkShortened.setAttribute('style', 'cursor: pointer')
+        linkShortened.textContent = url
+        linkShortened.addEventListener('click', () => {
+          copy(url)
+          copiedSnackbar.show()
+        })
+
         row.appendChild(linkSlug);
         row.appendChild(linkDest);
+        row.appendChild(linkShortened);
 
         dataTable.appendChild(row);
       }
@@ -53,6 +73,10 @@ document.querySelector('#create').addEventListener('click', () => {
       })
     })
   }
+})
+
+document.querySelector('#random').addEventListener('click', () => {
+  document.querySelector('#slug').value = randomSlug()
 })
 
 getLinks()
