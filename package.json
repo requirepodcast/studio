@@ -61,7 +61,7 @@
     "socket.io-client": "^2.3.0",
     "style-loader": "^1.2.0",
     "typescript": "^3.8.3",
-    "validator": "^13.0.0",
+    "validator": "^13.7.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   },
